@@ -1,14 +1,30 @@
+import java.util.ArrayList;
+
 public class Book {
-	private String name;
+	//todo: getter
+	private List<String> authors = new List<String>(); 
+	//todo: getter e setter
+	private int edition;
+	private String title;
+	//todo: getter e setter
+	private String subtitle;
+	//todo: getter e setter
+	private int year;
+	//todo: getter e setter
+	private int ISBN; //International Standard Book Number
 	private String publisher;
 	private int numPages;
 	private boolean available;
 
-	Livro(String name, String publisher, int numPages) {
-		this.name = name;
+	public Livro(String title, String publisher, int numPages) {
+		this.title = title;
 		this.publisher = publisher;
 		this.numPages = numPages;
 		this.available = false;
+	}
+	
+	public void addAuthor(String author) {
+		this.authors.add(author);
 	}
 
 	public void setAvailable(boolean available) {
@@ -19,12 +35,12 @@ public class Book {
 		return this.available;
 	}	
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getTitle() {
+		return this.title;
 	}
 
 	public void setPublisher(String publisher) {
