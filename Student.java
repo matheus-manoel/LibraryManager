@@ -9,11 +9,11 @@ public class Student extends User {
 	}
 
 
-	void setSchoolId(int schoolId){
+	public void setSchoolId(int schoolId){
 		this.schoolId = schoolId;
 	}
 
-	int getSchoolId(){
+	public int getSchoolId(){
 		return this.schoolId;
 	}
 

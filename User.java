@@ -19,35 +19,35 @@ public class User {
 		this.email = email;
 	}
 
-	void setName(String name){
+	public void setName(String name){
 		this.name = name;
 	}
 
-	String getName(){
+	public String getName(){
 		return this.name;
 	}
 
-	void setID(String id){
+	public void setID(String id){
 		this.id = id;
 	}
 
-	String getID(){
+	public String getID(){
 		return this.id;
 	}
 
-	void setTelephoneNumber(String telephoneNumber){
+	public void setTelephoneNumber(String telephoneNumber){
 		this.telephoneNumber = telephoneNumber;
 	}
 
-	String getTelephoneNumber(){
+	public String getTelephoneNumber(){
 		return this.telephoneNumber;
 	}
 
-	void setEmail(String email){
+	public void setEmail(String email){
 		this.email = email;
 	}
 
-	String getEmail(){
+	public String getEmail(){
 		return this.email;
 	}
 	
