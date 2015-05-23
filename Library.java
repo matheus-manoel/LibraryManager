@@ -45,27 +45,45 @@ public class Library{
 
 	public static void main(String[] args){
 		Scanner in = new Scanner(System.in);
+		int swValue = -1;
 
 		System.out.println("Insira a data: ");
 		String dateString = in.nextLine();
-		
-		System.out.println("okei");
-		
-		String cmd;
+		System.out.println("okei " + dateString);
 
-		{
-			 cmd = in.nextLine();
+		while(swValue != 0){
 
-			if(cmd == "1"){					//cadastrar student
+			swValue = in.nextInt();
+			
+			System.out.println("swvalue = " + swValue);
 
-			}else if(cmd == "2"){			//cadastrar professor
-				System.out.println("inserir professor");
+			if(swValue == 1){
+					System.out.println("Option 1 selected. inserir professor");
 
-				Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
+					in.nextLine();			//this works like a fflush
 
-				//addUser(newProfessor);
+					String nome = in.nextLine();
+					String id = in.nextLine();
+					String telefone = in.nextLine();
+					String email = in.nextLine();
+
+			    	Professor newProfessor = new Professor(nome, id, telefone, email);
+
+			    	System.out.println(nome + ", " + id + ", " + telefone + ", " + email);
+
+			    	System.out.println("okei ");
+
+			    	//addUser(newProfessor);
+
+			}else if(swValue == 2){
+				System.out.println("Option 2 selected");
+			}else if(swValue == 0){
+				System.out.println("Exit selected");
 			}
-		}while(cmd != "0");
+
+		}
+
+
 
 	}
 }
