@@ -54,11 +54,11 @@ public class Library{
 		while(swValue != 0){
 
 			swValue = in.nextInt();
-			
+
 			System.out.println("swvalue = " + swValue);
 
-			if(swValue == 1){
-					System.out.println("Option 1 selected. inserir professor");
+
+			if(swValue == 1){			System.out.println("Option 1 selected. Add professor");
 
 					in.nextLine();			//this works like a fflush
 
@@ -69,21 +69,15 @@ public class Library{
 
 			    	Professor newProfessor = new Professor(nome, id, telefone, email);
 
-			    	System.out.println(nome + ", " + id + ", " + telefone + ", " + email);
-
-			    	System.out.println("okei ");
-
+			    	//System.out.println(nome + ", " + id + ", " + telefone + ", " + email);
+			    	//System.out.println("okei ");
 			    	//addUser(newProfessor);
 
-			}else if(swValue == 2){
-				System.out.println("Option 2 selected");
-			}else if(swValue == 0){
-				System.out.println("Exit selected");
-			}
+			}else if(swValue == 2){		System.out.println("Option 2 selected");
+			
+			}else if(swValue == 0)		System.out.println("Exit selected");
 
 		}
-
-
 
 	}
 }
