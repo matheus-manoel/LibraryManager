@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Loan {
 	private User locator; 
 	private GregorianCalendar initial_cal, final_cal; 

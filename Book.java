@@ -1,8 +1,8 @@
-import java.util.List;
+import java.util.*;
 
 public class Book {
 	//todo: getter
-	private List<String> authors = new List<String>(); 
+	private ArrayList<String> authors = new ArrayList<String>(); 
 	//todo: getter e setter
 	private int edition;
 	private String title;
@@ -17,10 +17,10 @@ public class Book {
 	private boolean available;
 	private boolean availableForCommunityMember;
 
-	public Book(String title, String subTitle, int edition, int year, 
+	public Book(String title, String subtitle, int edition, int year, 
 				String publisher, int numPages, boolean availableForCommunityMember) {
 		this.title = title;
-		this.subTitle = subTitle;
+		this.subtitle = subtitle;
 		this.edition = edition;
 		this.year = year;
 		this.publisher = publisher;
@@ -60,6 +60,6 @@ public class Book {
 	}
 
 	public boolean isAvailableForCommunityMember() {
-		return this.isAvailableForCommunityMember;
+		return this.availableForCommunityMember;
 	}
 }

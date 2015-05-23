@@ -1,15 +1,18 @@
+import java.util.*;
+
 public class User {
 	private String name;
 	private String id;
 	private String telephoneNumber;
 	private String email;
-	private List<Loan> loans;
-	
-	private static final int maxRentalDays = 5;
-	private static final int maxRentalBooks = 5;
+	private ArrayList<Loan> loans;
+
+	//arbitrary constant
+	int maxRentalBooks = 500;
+
 	
 	public User(String name, String id, String telephoneNumber, String email) {
-		this.loans = new List<Loan>();
+		this.loans = new ArrayList<Loan>();
 		this.name = name;
 		this.id = id;
 		this.telephoneNumber = telephoneNumber;
@@ -62,9 +65,5 @@ public class User {
 			return false;
 
 		return true;
-	}
-
-	public int getMaxRentalDays() {
-		return this.maxRentalDays;
 	}
 }

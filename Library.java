@@ -1,10 +1,11 @@
 import java.util.*;
+import java.util.ArrayList;
 import java.text.*;
 
 public class Library{
-	private List<Book> books;
-	private List<User> users; 
-	private List<Loan> loans;
+	private ArrayList<Book> books;
+	private ArrayList<User> users; 
+	private ArrayList<Loan> loans;
 
 	public Library() {
 		this.books = new ArrayList<Book>();
@@ -25,7 +26,7 @@ public class Library{
 		if(!book.isAvailable())
 			return -1;
 	
-		if((locator instanceof CommunityMember) && !book.isAvailableForCommunityMembers())
+		if((locator instanceof CommunityMember) && !book.isAvailableForCommunityMember())
 			return -2;
 
 		locator.addLoan(loan);
@@ -54,9 +55,8 @@ public class Library{
 			 cmd = in.nextLine();
 
 			if(cmd == "1"){					//cadastrar student
-				String nome = in.nextLine();
 
-				Student newStudent = new Student(nome);
+				Student newStudent = new Student(in.nextLine());
 
 				addStudent(newStudent);
 
