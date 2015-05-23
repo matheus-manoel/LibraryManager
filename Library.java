@@ -11,17 +11,24 @@ public class Library{
 		this.users = new ArrayList<User>();
 		this.loans = new ArrayList<Loan>();
 	}
-
-	public void addStudent(Student student) {
-		this.users.add(student);
+	
+	public boolean addLoan(User locator, Book book, Loan loan) {
+		//checa se o locador já não alugou o max de livros
+		if(locator.rentedMaxBooks())
+			return false;
+		
+		locator.addLoan(loan);
+	    book.setAvailable(false); //livro fica indisponível para que outros aluguem
+		this.addLoan(loan);		
+		return true;
 	}
 
-	public void addProfessor(Professor professor) {
-		this.users.add(professor); 
+	public void addUser(User user) {
+		this.users.add(user);
 	}
 
-	public void addCommunityMember(CommunityMember comMember) {
-		this.users.add(comMember);
+	public void addLoan(Loan loan) {
+		this.loans.add(loan);
 	}
 
 	public static void main(String[] args){

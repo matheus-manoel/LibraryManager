@@ -3,7 +3,14 @@ public class User {
 	private String id;
 	private String telephoneNumber;
 	private String email;
-
+	private List<Loan> loans;
+	
+	private static final int maxRentalDays = 5;
+	private static final int maxRentalBooks = 5;
+	
+	public User() {
+		this.loans = new List<Loan>();
+	}
 
 	void setName(String name){
 		this.name = name;
@@ -36,5 +43,24 @@ public class User {
 	String getEmail(){
 		return this.email;
 	}
+	
+	public boolean addLoan(Loan loan) {
+		//checando se usuario já emprestou o máximo
+		if(this.rentedMaxBooks())
+			return false;
 
+		this.loans.add(loan);
+		return true;
+	}
+
+	public boolean rentedMaxBooks() {
+		if (loans.size() < maxRentalBooks)
+			return false;
+
+		return true;
+	}
+
+	public int getMaxRentalDays() {
+		return this.maxRentalDays;
+	}
 }
