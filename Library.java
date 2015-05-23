@@ -1,4 +1,5 @@
 import java.util.*;
+import java.text.*;
 
 public class Library{
 	private List<Book> books;
@@ -22,4 +23,20 @@ public class Library{
 	public void addCommunityMember(CommunityMember comMember) {
 		this.users.add(comMember);
 	}
+
+	public static void main(String[] args){
+		Scanner in = new Scanner(System.in);
+
+		System.out.println("Insira a data: ");
+		dateString = in.nextLine();
+
+		{
+			cmd = in.nextLine();
+
+
+		}while(cmd != 0);
+
+	}
+
+
 }

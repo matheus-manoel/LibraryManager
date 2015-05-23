@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Book {
 	//todo: getter
@@ -11,16 +11,21 @@ public class Book {
 	//todo: getter e setter
 	private int year;
 	//todo: getter e setter
-	private int ISBN; //International Standard Book Number
+	private int isnb; //International Standard Book Number
 	private String publisher;
 	private int numPages;
 	private boolean available;
 
-	public Livro(String title, String publisher, int numPages) {
+	public Book(String title, String subTitle, int edition, int year, String publisher, int numPages) {
 		this.title = title;
+		this.subTitle = subTitle;
+		this.edition = edition;
+		this.year = year;
 		this.publisher = publisher;
 		this.numPages = numPages;
 		this.available = false;
+
+		//todo: something with isnb and author
 	}
 	
 	public void addAuthor(String author) {

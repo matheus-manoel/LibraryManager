@@ -1,3 +1,3 @@
-public class CommunityMember extendes User {
+public class CommunityMember extends User {
 
 }
