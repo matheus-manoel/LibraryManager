@@ -15,15 +15,18 @@ public class Book {
 	private String publisher;
 	private int numPages;
 	private boolean available;
+	private boolean availableForCommunityMember;
 
-	public Book(String title, String subTitle, int edition, int year, String publisher, int numPages) {
+	public Book(String title, String subTitle, int edition, int year, 
+				String publisher, int numPages, boolean availableForCommunityMember) {
 		this.title = title;
 		this.subTitle = subTitle;
 		this.edition = edition;
 		this.year = year;
 		this.publisher = publisher;
 		this.numPages = numPages;
-		this.available = false;
+		this.available = true;
+		this.availableForCommunityMember = availableForCommunityMember;
 
 		//todo: something with isnb and author
 	}
@@ -36,7 +39,7 @@ public class Book {
 		this.available = available;
 	}
 	
-	public boolean getAvailable() {
+	public boolean isAvailable() {
 		return this.available;
 	}	
 	
@@ -54,5 +57,9 @@ public class Book {
 
 	public String getPublisher() {
 		return this.publisher;
+	}
+
+	public boolean isAvailableForCommunityMember() {
+		return this.isAvailableForCommunityMember;
 	}
 }

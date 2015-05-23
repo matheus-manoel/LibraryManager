@@ -12,15 +12,26 @@ public class Library{
 		this.loans = new ArrayList<Loan>();
 	}
 	
-	public boolean addLoan(User locator, Book book, Loan loan) {
-		//checa se o locador já não alugou o max de livros
+	/* Returns: 
+	 * 1  -> sucesso.
+	 * 0  -> usuário já alugou o máximo de livros possíveis.
+	 * -1 -> livro está alugado.
+	 * -2 -> usuário não tem permissão para alugar esse livro.
+	 */
+	public int addLoan(User locator, Book book, Loan loan) {
 		if(locator.rentedMaxBooks())
-			return false;
-		
+			return 0;
+
+		if(!book.isAvailable())
+			return -1;
+	
+		if((locator instanceof CommunityMember) && !book.isAvailableForCommunityMembers())
+			return -2;
+
 		locator.addLoan(loan);
-	    book.setAvailable(false); //livro fica indisponível para que outros aluguem
+		book.setAvailable(false); //livro fica indisponível para que outros aluguem
 		this.addLoan(loan);		
-		return true;
+		return 1;
 	}
 
 	public void addUser(User user) {

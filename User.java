@@ -8,8 +8,12 @@ public class User {
 	private static final int maxRentalDays = 5;
 	private static final int maxRentalBooks = 5;
 	
-	public User() {
+	public User(String name, String id, String telephoneNumber, String email) {
 		this.loans = new List<Loan>();
+		this.name = name;
+		this.id = id;
+		this.telephoneNumber = telephoneNumber;
+		this.email = email;
 	}
 
 	void setName(String name){
