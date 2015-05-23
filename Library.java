@@ -48,7 +48,9 @@ public class Library{
 
 		System.out.println("Insira a data: ");
 		String dateString = in.nextLine();
-
+		
+		System.out.println("okei");
+		
 		String cmd;
 
 		{
@@ -56,31 +58,14 @@ public class Library{
 
 			if(cmd == "1"){					//cadastrar student
 
-				Student newStudent = new Student(in.nextLine());
-
-				addStudent(newStudent);
-
 			}else if(cmd == "2"){			//cadastrar professor
+				System.out.println("inserir professor");
 
-			}else if(cmd == "3"){			//cadastrar communityMember
+				Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
 
-			}else if(cmd == "4"){			//cadastrar livro
-
-			}else if(cmd == "5"){			//fazer emprestimo
-
-			}else if(cmd == "6"){			//quitar emprestimo
-
-			}else if(cmd == "7"){			//ver emprestimos
-
-			}else if(cmd == "8"){			//ver livros
-
-			}else if(cmd == "9"){			//ver usuarios
-
+				//addUser(newProfessor);
 			}
-
 		}while(cmd != "0");
 
 	}
-
-
 }

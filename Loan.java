@@ -27,7 +27,7 @@ public class Loan {
 				   				  current_cal.get(GregorianCalendar.DAY_OF_MONTH));
 		
 		//adicionando o número de dias máximo que o locator pode ficar com o livro
-		this.final_cal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
+		//this.final_cal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
 	}
 	
 }

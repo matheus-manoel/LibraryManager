@@ -4,8 +4,10 @@ public class Student extends User {
 	private static final int maxRentalDays = 15;
 	private static final int maxRentalBooks = 4;
 
-	public Student(String nome){
-		this.nome = nome;
+	public Student(String name, String id, String telephoneNumber, String email, int schoolId) {
+		super(name, id, telephoneNumber, email);
+
+		this.schoolId = schoolId;
 	}
 
 
