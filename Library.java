@@ -7,9 +7,9 @@ public class Library{
 	private List<Loan> loans;
 
 	public Library() {
-		this.books = new List<Book>();
-		this.users = new List<User>();
-		this.loans = new List<Loan>();
+		this.books = new ArrayList<Book>();
+		this.users = new ArrayList<User>();
+		this.loans = new ArrayList<Loan>();
 	}
 
 	public void addStudent(Student student) {
@@ -28,13 +28,39 @@ public class Library{
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("Insira a data: ");
-		dateString = in.nextLine();
+		String dateString = in.nextLine();
+
+		String cmd;
 
 		{
-			cmd = in.nextLine();
+			 cmd = in.nextLine();
 
+			if(cmd == "1"){					//cadastrar student
+				String nome = in.nextLine();
 
-		}while(cmd != 0);
+				Student newStudent = new Student(nome);
+
+				addStudent(newStudent);
+
+			}else if(cmd == "2"){			//cadastrar professor
+
+			}else if(cmd == "3"){			//cadastrar communityMember
+
+			}else if(cmd == "4"){			//cadastrar livro
+
+			}else if(cmd == "5"){			//fazer emprestimo
+
+			}else if(cmd == "6"){			//quitar emprestimo
+
+			}else if(cmd == "7"){			//ver emprestimos
+
+			}else if(cmd == "8"){			//ver livros
+
+			}else if(cmd == "9"){			//ver usuarios
+
+			}
+
+		}while(cmd != "0");
 
 	}
 

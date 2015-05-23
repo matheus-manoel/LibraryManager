@@ -1,6 +1,11 @@
 public class Student extends User {
 	private int schoolId;
 
+	public Student(String nome){
+		super.nome = nome;
+	}
+
+
 	void setSchoolId(int schoolId){
 		this.schoolId = schoolId;
 	}
@@ -8,4 +13,6 @@ public class Student extends User {
 	int getSchoolId(){
 		return this.schoolId;
 	}
+
+
 }
