@@ -48,34 +48,79 @@ public class Library{
 		int swValue = -1;
 
 		System.out.println("Insira a data: ");
+
 		String dateString = in.nextLine();
-		System.out.println("okei " + dateString);
+
+		System.out.println("okei: " + dateString);
 
 		while(swValue != 0){
 
 			swValue = in.nextInt();
 
-			System.out.println("swvalue = " + swValue);
+			//System.out.println("swvalue = " + swValue);
 
 
-			if(swValue == 1){			System.out.println("Option 1 selected. Add professor");
+			if(swValue == 1){		System.out.println("Option 1 selected. Add student");
 
-					in.nextLine();			//this works like a fflush
+				System.out.println("register: nome, id, telefone, email, schoolId");
 
-					String nome = in.nextLine();
-					String id = in.nextLine();
-					String telefone = in.nextLine();
-					String email = in.nextLine();
+				in.nextLine();				//this works like a fflush
 
-			    	Professor newProfessor = new Professor(nome, id, telefone, email);
+				Student newStudent = new Student(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), in.nextInt());
 
-			    	//System.out.println(nome + ", " + id + ", " + telefone + ", " + email);
-			    	//System.out.println("okei ");
-			    	//addUser(newProfessor);
+				//System.out.println(newStudent.getName() + ", " + newStudent.getId() + ", " + newStudent.getTelephoneNumber() + ", " + newStudent.getEmail() + ", " + newStudent.getSchoolId());
 
-			}else if(swValue == 2){		System.out.println("Option 2 selected");
-			
-			}else if(swValue == 0)		System.out.println("Exit selected");
+				//addUser(newStudent);
+
+			} else if(swValue == 2){			System.out.println("Option 2 selected. Add professor");
+
+				System.out.println("register: nome, id, telephoneNumber, email");
+
+				in.nextLine();			//this works like a fflush
+
+				//nome, id, telephoneNumber, email
+		    	Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
+
+		    	//System.out.println(newProfessor.getName() + ", " + newProfessor.getId() + ", " + newProfessor.getTelephoneNumber() + ", " + newProfessor.getEmail());
+		    	
+		    	//addUser(newProfessor);
+
+			}else if(swValue == 3){		System.out.println("Option 3 selected. Add CommunityMember");
+
+				System.out.println("register: nome, id, telephoneNumber, email");
+
+				in.nextLine();			//this works like a fflush
+
+				//nome, id, telephoneNumber, email
+		    	CommunityMember newCommunityMember = new CommunityMember(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
+
+		    	//System.out.println(newCommunityMember.getName() + ", " + newCommunityMember.getId() + ", " + newCommunityMember.getTelephoneNumber() + ", " + newCommunityMember.getEmail());
+		    	
+		    	//addUser(newCommunityMember);
+		
+			}else if(swValue == 4){		System.out.println("Option 4 selected. Add Book");
+
+				System.out.println("register: title, subtitle, edition, year, publisher, numPages, availableForCommunityMember");
+
+				in.nextLine();
+
+				//title, subtitle, edition, year, publisher, numPages, availableForCommunityMember
+				Book newBook = new Book(in.nextLine(), in.nextLine(), in.nextInt(), in.nextInt(), in.nextLine(), in.nextInt(), in.nextBoolean());
+
+				//addBook(newBook);
+
+			}else if(swValue == 5){		System.out.println("Option 5 selected. Register Loan");
+
+				//User locator, Book book, GregorianCalendar current_cal
+				//Loan newLoan = new Loan();
+
+			}else if(swValue == 6){		System.out.println("Option 6 selected. List Books");
+
+			}else if(swValue == 7){		System.out.println("Option 7 selected. List Users");
+
+			}else if(swValue == 8){		System.out.println("Option 7 selected. List Loans");
+
+			}else if(swValue == 0){		System.out.println("Exit selected");}
 
 		}
 
