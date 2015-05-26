@@ -32,6 +32,7 @@ public class Loan {
     
     public boolean updateLocatorRentAvailability(GregorianCalendar today){
         Date todayDate, finalCalDate;
+        Date startDate, endDate;
         long startTime, endTime, diffTime, diffDays;
         GregorianCalendar newLocatorRentAvailableDay = 
                                     new GregorianCalendar(today.get(GregorianCalendar.YEAR),
@@ -42,9 +43,10 @@ public class Loan {
         if(today.after(this.finalCal)) {
             locator.setCanRent(false);
             
-            
-            startTime = finalCal.getTime();
-            endTime = today.getTime();
+            startDate = finalCal.getTime();
+            endDate = today.getTime();
+            startTime = startDate.getTime();
+            endTime = endDate.getTime();
             diffTime = endTime - startTime;
             diffDays = diffTime / (1000*60*60*24); 
             newLocatorRentAvailableDay.add(GregorianCalendar.DAY_OF_MONTH, (int)diffDays);
