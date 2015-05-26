@@ -35,7 +35,7 @@ public class Loan {
         long startTime, endTime, diffTime, diffDays;
         GregorianCalendar newLocatorRentAvailableDay = 
                                     new GregorianCalendar(today.get(GregorianCalendar.YEAR),
-								                          today.(GregorianCalendar.MONTH),
+								                          today.get(GregorianCalendar.MONTH),
 				   				                          today.get(GregorianCalendar.DAY_OF_MONTH));
 
         //checando se a data de entrega já passou
