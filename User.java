@@ -13,14 +13,14 @@ public class User {
 	private static final int maxRentalBooks = 500;
     private static final int maxRentalDays = 20;
 	
-	public User(String name, String id, String telephoneNumber, String email, boolean canRent, GregorianCalendar rentAvailabilityDay) {
+	public User(String name, String id, String telephoneNumber, String email, boolean canRent, GregorianCalendar today) {
 		this.loans = new ArrayList<Loan>();
 		this.name = name;
 		this.id = id;
 		this.telephoneNumber = telephoneNumber;
 		this.email = email;
         this.canRent = true;
-        this.rentAvailabilityDay = rentAvailabilityDay;
+        this.rentAvailabilityDay = today;
 	}
 
 	public void setName(String name){
@@ -60,7 +60,7 @@ public class User {
     }
 
     public boolean getCanRent(){
-        return getCanRent;
+        return canRent;
     }
 
     public void setCanRent(boolean canRent) {

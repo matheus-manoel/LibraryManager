@@ -46,12 +46,15 @@ public class Library{
 	public static void main(String[] args){
 		Scanner in = new Scanner(System.in);
 		int swValue = -1;
+        GregorianCalendar today;
+        int day, month, year;
 
 		System.out.println("Insira a data: ");
 
-		String dateString = in.nextLine();
-
-		System.out.println("okei: " + dateString);
+		day = in.nextInt();
+		month = in.nextInt();
+		year = in.nextInt();
+        today = new GregorianCalendar(year, month, day);
 
 		while(swValue != 0){
 
@@ -66,7 +69,7 @@ public class Library{
 
 				in.nextLine();				//this works like a fflush
 
-				Student newStudent = new Student(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), in.nextInt());
+				Student newStudent = new Student(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), in.nextInt(), today);
 
 				//System.out.println(newStudent.getName() + ", " + newStudent.getId() + ", " + newStudent.getTelephoneNumber() + ", " + newStudent.getEmail() + ", " + newStudent.getSchoolId());
 
@@ -79,7 +82,7 @@ public class Library{
 				in.nextLine();			//this works like a fflush
 
 				//nome, id, telephoneNumber, email
-		    	Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
+		    	Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), today);
 
 		    	//System.out.println(newProfessor.getName() + ", " + newProfessor.getId() + ", " + newProfessor.getTelephoneNumber() + ", " + newProfessor.getEmail());
 		    	
@@ -92,7 +95,7 @@ public class Library{
 				in.nextLine();			//this works like a fflush
 
 				//nome, id, telephoneNumber, email
-		    	CommunityMember newCommunityMember = new CommunityMember(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine());
+		    	CommunityMember newCommunityMember = new CommunityMember(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), today);
 
 		    	//System.out.println(newCommunityMember.getName() + ", " + newCommunityMember.getId() + ", " + newCommunityMember.getTelephoneNumber() + ", " + newCommunityMember.getEmail());
 		    	
