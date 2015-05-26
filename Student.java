@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class Student extends User {
+	
+	//*********pq schoolId é int e o ID normal é string*********
 	private int schoolId;
 
 	private static final int maxRentalDays = 15;
