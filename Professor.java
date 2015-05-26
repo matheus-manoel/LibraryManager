@@ -1,18 +1,20 @@
 import java.util.*;
 
 public class Professor extends User {
-	private static final int maxRentalDays = 60;
+    private String researcherID; 
+    private static final int maxRentalDays = 60;
 	private static final int maxRentalBooks = 6;
 
-	public Professor(String name, String id, String telephoneNumber, String email, GregorianCalendar today) {
+	public Professor(String name, String id, String telephoneNumber, String email, GregorianCalendar today, String researcherID) {
 		super(name, id, telephoneNumber, email, true, today);
+        this.researcherID = researcherID;
 	}
 
-	public int getMaxRentalDays() {
-		return this.maxRentalDays;
-	}
+    public String getResearcherID() {
+        return this.researcherID;
+    }
 
-	public int getMaxRentalBooks() {
-		return this.maxRentalBooks;
-	}
+    public void setResearcherID(String researcherID) {
+        this.researcherID = researcherID;
+    }
 }

@@ -10,6 +10,7 @@ public class User {
     private GregorianCalendar rentAvailabilityDay;
 	
     //arbitrary constant
+    private static int libID;
 	private static final int maxRentalBooks = 500;
     private static final int maxRentalDays = 20;
 	
@@ -21,7 +22,7 @@ public class User {
 		this.email = email;
         this.canRent = true;
         this.rentAvailabilityDay = today;
-	}
+    }
 
 	public void setName(String name){
 		this.name = name;
@@ -29,6 +30,14 @@ public class User {
 
 	public String getName(){
 		return this.name;
+	}
+
+	public void setLibId(int libID){
+		this.libID = libID;
+	}
+
+	public int getLibID(){
+		return this.libID;
 	}
 
 	public void setId(String id){
