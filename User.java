@@ -6,17 +6,21 @@ public class User {
 	private String telephoneNumber;
 	private String email;
 	private ArrayList<Loan> loans;
-
-	//arbitrary constant
-	int maxRentalBooks = 500;
-
+    private boolean canRent;
+    private GregorianCalendar rentAvailabilityDay;
 	
-	public User(String name, String id, String telephoneNumber, String email) {
+    //arbitrary constant
+	private static final int maxRentalBooks = 500;
+    private static final int maxRentalDays = 20;
+	
+	public User(String name, String id, String telephoneNumber, String email, boolean canRent, GregorianCalendar rentAvailabilityDay) {
 		this.loans = new ArrayList<Loan>();
 		this.name = name;
 		this.id = id;
 		this.telephoneNumber = telephoneNumber;
 		this.email = email;
+        this.canRent = true;
+        this.rentAvailabilityDay = rentAvailabilityDay;
 	}
 
 	public void setName(String name){
@@ -51,6 +55,18 @@ public class User {
 		return this.email;
 	}
 	
+    public int getMaxRentalDays() {
+        return maxRentalDays;
+    }
+
+    public boolean getCanRent(){
+        return getCanRent;
+    }
+
+    public void setCanRent(boolean canRent) {
+        this.canRent = canRent;
+    }
+
 	public boolean addLoan(Loan loan) {
 		//checando se usuario já emprestou o máximo
 		if(this.rentedMaxBooks())
@@ -59,6 +75,14 @@ public class User {
 		this.loans.add(loan);
 		return true;
 	}
+
+    public GregorianCalendar getRentAvailabilityDay() {
+        return this.rentAvailabilityDay;
+    }
+
+    public void setRentAvailabilityDay(GregorianCalendar rentAvailabilityDay) {
+        this.rentAvailabilityDay = rentAvailabilityDay;
+    }
 
 	public boolean rentedMaxBooks() {
 		if (loans.size() < maxRentalBooks)
