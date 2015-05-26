@@ -43,12 +43,18 @@ public class Library{
 		this.loans.add(loan);
 	}
     
+    public void addBook(Book book) {
+        this.books.add(book);
+    }
+
     public void printUsers() {
         for(User user : this.users)
             System.out.println(user.getName());
     }
 
-    public void addBook(Book book) {
-        this.books.add(book);
+    public void printBooks() {
+        for(Book book : this.books)
+            System.out.println(book.getTitle());
     }
+
 }

@@ -46,43 +46,73 @@ public class LibraryManager{
 
 				library.addUser(newStudent);
 
-			} else if(option == 2){			System.out.println("Option 2 selected. Add professor");
+			} else if(option == 2){
 
-/*				System.out.println("register: nome, id, telephoneNumber, email");
+                String name, id, telephoneNumber, email, researcherID;
+                System.out.println("Adicione um professor:");
+				System.out.print("Nome: ");
+                name = in.nextLine();
+				System.out.print("RG: ");
+                id = in.nextLine();
+				System.out.print("Telefone: ");
+                telephoneNumber = in.nextLine();
+				System.out.print("Email: ");
+                email = in.nextLine();
+				System.out.print("Researcher ID: ");
+                researcherID = in.nextLine();
+                    
+				Professor newProfessor = new Professor(name, id, telephoneNumber, email, today, researcherID);
 
-				in.nextLine();			//this works like a fflush
+				library.addUser(newProfessor);
 
-				//nome, id, telephoneNumber, email
-		    	Professor newProfessor = new Professor(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), today);
+			}else if(option == 3){
+                
+                String name, id, telephoneNumber, email, profession;
+                System.out.println("Adicione um membro da comunidade:");
+				System.out.print("Nome: ");
+                name = in.nextLine();
+				System.out.print("RG: ");
+                id = in.nextLine();
+				System.out.print("Telefone: ");
+                telephoneNumber = in.nextLine();
+				System.out.print("Email: ");
+                email = in.nextLine();
+				System.out.print("Profissao: ");
+                profession = in.nextLine();
+                    
+				CommunityMember newCommunityMember = new CommunityMember(name, id, telephoneNumber, email, today, profession);
 
-		    	//System.out.println(newProfessor.getName() + ", " + newProfessor.getId() + ", " + newProfessor.getTelephoneNumber() + ", " + newProfessor.getEmail());
-		    	
-		    	//addUser(newProfessor);
-*/
-			}else if(option == 3){		System.out.println("Option 3 selected. Add CommunityMember");
-/*
-				System.out.println("register: nome, id, telephoneNumber, email");
+				library.addUser(newCommunityMember);
 
-				in.nextLine();			//this works like a fflush
+			}else if(option == 4){
 
-				//nome, id, telephoneNumber, email
-		    	CommunityMember newCommunityMember = new CommunityMember(in.nextLine(), in.nextLine(), in.nextLine(), in.nextLine(), today);
+				String title, subtitle, publisher, availible;
+				int edition, bookYear, numPages; 
+				boolean availableForCommunityMember;
 
-		    	//System.out.println(newCommunityMember.getName() + ", " + newCommunityMember.getId() + ", " + newCommunityMember.getTelephoneNumber() + ", " + newCommunityMember.getEmail());
-		    	
-		    	//addUser(newCommunityMember);
-*/		
-			}else if(option == 4){		System.out.println("Option 4 selected. Add Book");
-/*
-				System.out.println("register: title, subtitle, edition, year, publisher, numPages, availableForCommunityMember");
+                System.out.println("Adicione um livro:");
+				System.out.print("Titulo: ");
+                title = in.nextLine();
+				System.out.print("SubTitulo: ");
+                subtitle = in.nextLine();
+				System.out.print("Edicao: ");
+                edition = in.nextInt();
+				System.out.print("Ano: ");
+                bookYear = in.nextInt();
 
-				in.nextLine();
+                in.nextLine();
 
-				//title, subtitle, edition, year, publisher, numPages, availableForCommunityMember
-				Book newBook = new Book(in.nextLine(), in.nextLine(), in.nextInt(), in.nextInt(), in.nextLine(), in.nextInt(), in.nextBoolean());
+				System.out.print("Editora: ");
+                publisher = in.nextLine();
+                System.out.print("Numero de paginas: ");
+                numPages = in.nextInt();
+				System.out.print("Este livro esta disponivel para a comunidade? (true/false)");
+				availableForCommunityMember = in.nextBoolean();
 
-				//addBook(newBook);
-*/
+				Book newBook = new Book(title, subtitle, edition, bookYear, publisher, numPages, availableForCommunityMember);
+
+				library.addBook(newBook);
+
 			}else if(option == 5){		System.out.println("Option 5 selected. Register Loan");
 
 				//User locator, Book book, GregorianCalendar current_cal
@@ -90,9 +120,13 @@ public class LibraryManager{
 
 			}else if(option == 6){		System.out.println("Option 6 selected. List Books");
 
+				library.printBooks();
+
 			}else if(option == 7){		System.out.println("Option 7 selected. List Users");
 
-			}else if(option == 8){		System.out.println("Option 7 selected. List Loans");
+				library.printUsers();
+
+			}else if(option == 8){		System.out.println("Option 8 selected. List Loans");
 
 			}else if(option == 0){		System.out.println("Exit selected");}
 
