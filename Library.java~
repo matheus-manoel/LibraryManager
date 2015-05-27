@@ -48,23 +48,8 @@ public class Library{
     }
 
     public void printUsers() {
-        GregorianCalendar calDate;
-        int day, month, year;
-
-        for(User user : this.users) {
+        for(User user : this.users)
             System.out.println(user.getName());
-            calDate = user.getRentAvailabilityDay();
-            day = calDate.get(GregorianCalendar.DAY_OF_MONTH); 
-            month = calDate.get(GregorianCalendar.MONTH); 
-            year = calDate.get(GregorianCalendar.YEAR); 
-            System.out.println("data que pode fazer emprestimo: " + day + "/" +
-                                month + "/" + year);
-        }
-    }
-    
-    public void updateLoans(GregorianCalendar today) {
-        for(Loan loan : this.loans)
-            loan.updateLocatorRentAvailability(today);
     }
 
     public void printBooks() {
@@ -74,9 +59,8 @@ public class Library{
     
     public void printLoans() {
         for(Loan loan : this.loans){
-            System.out.print("Emprestimo: ");
-            System.out.print(loan.getLocator());
-            System.out.print(" " + loan.getBook());
+            System.out.println(loan.getLocator());
+            System.out.println(loan.getBook());
         }
     }
     

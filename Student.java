@@ -12,6 +12,9 @@ public class Student extends User {
         this.academicDegree = academicDegree;
 	}
 
+    public int getMaxRentalDays() {
+        return this.maxRentalDays;
+    }
 
 	public void setSchoolId(String schoolId){
 		this.schoolId = schoolId;

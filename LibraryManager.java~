@@ -13,19 +13,16 @@ public class LibraryManager{
         GregorianCalendar today;
         int day, month, year;
 
+		System.out.println("Insira a data: ");
+		day = in.nextInt();
+		month = in.nextInt();
+		year = in.nextInt();
+        today = new GregorianCalendar(year, month, day);
 
 
 		while(option != 0){
 
-		    System.out.println("Insira a data: ");
-		    day = in.nextInt();
-		    month = in.nextInt();
-		    year = in.nextInt();
-            today = new GregorianCalendar(year, month, day);
-	    
-            library.updateLoans(today);    
-
-            option = in.nextInt();
+			option = in.nextInt();
 			in.nextLine();				//this works like a fflush
 			
             if(option == 1){

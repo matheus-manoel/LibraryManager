@@ -9,6 +9,10 @@ public class Professor extends User {
 		super(name, id, telephoneNumber, email, true, today);
         this.researcherID = researcherID;
 	}
+    
+    public int getMaxRentalDays() {
+        return this.maxRentalDays;
+    }
 
     public String getResearcherID() {
         return this.researcherID;

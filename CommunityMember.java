@@ -10,6 +10,10 @@ public class CommunityMember extends User {
 	    this.profession = profession;
     }
 
+    public int getMaxRentalDays() {
+        return this.maxRentalDays;
+    }
+
     public String getProfession() {
         return this.profession;
     }

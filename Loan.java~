@@ -2,10 +2,10 @@ import java.util.*;
 
 public class Loan {
 	private User locator; 
-	private GregorianCalendar initial_cal, deliveryCal; 
+	private GregorianCalendar initial_cal, finalCal; 
 	private Book book;
 	
-	public Loan(User locator, Book book, GregorianCalendar today){
+	public Loan(User locator, Book book, GregorianCalendar current_cal){
 		this.locator = locator;
 		this.book = book;
 		
@@ -17,25 +17,21 @@ public class Loan {
 		 * argumento os valores do que queremos copiar.
 		 */
 		this.initial_cal = 
-			new GregorianCalendar(today.get(GregorianCalendar.YEAR),
-								  today.get(GregorianCalendar.MONTH),
-				   				  today.get(GregorianCalendar.DAY_OF_MONTH));
+			new GregorianCalendar(current_cal.get(GregorianCalendar.YEAR),
+								  current_cal.get(GregorianCalendar.MONTH),
+				   				  current_cal.get(GregorianCalendar.DAY_OF_MONTH));
 		
-		this.deliveryCal = 
-			new GregorianCalendar(today.get(GregorianCalendar.YEAR),
-								  today.get(GregorianCalendar.MONTH),
-				   				  today.get(GregorianCalendar.DAY_OF_MONTH));
+		this.finalCal = 
+			new GregorianCalendar(current_cal.get(GregorianCalendar.YEAR),
+								  current_cal.get(GregorianCalendar.MONTH),
+				   				  current_cal.get(GregorianCalendar.DAY_OF_MONTH));
 		
 		//adicionando o número de dias máximo que o locator pode ficar com o livro
-		this.deliveryCal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
-
-        System.out.println("delivery date: " + deliveryCal.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
-                            deliveryCal.get(GregorianCalendar.MONTH) + "/" +
-                            deliveryCal.get(GregorianCalendar.YEAR));
-    }
+		this.finalCal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
+	}
     
     public boolean updateLocatorRentAvailability(GregorianCalendar today){
-        Date todayDate, deliveryCalDate;
+        Date todayDate, finalCalDate;
         Date startDate, endDate;
         long startTime, endTime, diffTime, diffDays;
         GregorianCalendar newLocatorRentAvailableDay = 
@@ -44,10 +40,10 @@ public class Loan {
 				   				                          today.get(GregorianCalendar.DAY_OF_MONTH));
 
         //checando se a data de entrega já passou
-        if(today.after(this.deliveryCal)) {
+        if(today.after(this.finalCal)) {
             locator.setCanRent(false);
             
-            startDate = deliveryCal.getTime();
+            startDate = finalCal.getTime();
             endDate = today.getTime();
             startTime = startDate.getTime();
             endTime = endDate.getTime();
@@ -56,12 +52,6 @@ public class Loan {
             newLocatorRentAvailableDay.add(GregorianCalendar.DAY_OF_MONTH, (int)diffDays);
 
             locator.setRentAvailabilityDay(newLocatorRentAvailableDay);
-
-
-            System.out.println("pode alugar de novo: " + newLocatorRentAvailableDay.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
-                                newLocatorRentAvailableDay.get(GregorianCalendar.MONTH) + "/" +
-                                newLocatorRentAvailableDay.get(GregorianCalendar.YEAR));
-
             return true;
         }
 
