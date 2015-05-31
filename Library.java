@@ -6,9 +6,11 @@ public class Library{
 	private ArrayList<Book> books;
 	private ArrayList<User> users; 
 	private ArrayList<Loan> loans;
-    
-	public Library() {
-		this.books = new ArrayList<Book>();
+    private GregorianCalendar today;
+
+	public Library(GregorianCalendar today) {
+		this.today = today;
+        this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
 		this.loans = new ArrayList<Loan>();
 	}
@@ -69,17 +71,50 @@ public class Library{
 		this.addLoan(loan);		
 		return 1;
     }
+    
+    /* Returns:
+     * 1 -> Sucesso;
+     * 0 -> Mesmo email;
+     * -1 -> Mesmo ID;
+     */
+	public int addUser(CommunityMember comMember) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(comMember.getEmail()))
+                return 0;
 
-	public void addUser(CommunityMember user) {
-		this.users.add(user);
+            if(user.getId().equals(comMember.getId()))
+                return -1;
+        }
+
+		this.users.add(comMember);
+        return 1;
     }
 
-	public void addUser(Student user) {
-		this.users.add(user);
+	public int addUser(Student student) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(student.getEmail()))
+                return 0;
+
+            if(user.getId().equals(student.getId()))
+                return -1;
+        }
+
+		this.users.add(student);
+        return 1;
     }
 
-	public void addUser(Professor user) {
-		this.users.add(user);
+	public int addUser(Professor professor) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(professor.getEmail()))
+                return 0;
+
+            if(user.getId().equals(professor.getId()))
+                return -1;
+            
+        }
+
+		this.users.add(professor);
+        return 1;
     }
 
 	public void addLoan(Loan loan) {
@@ -105,9 +140,9 @@ public class Library{
         }
     }
     
-    public void updateLoans(GregorianCalendar today) {
+    public void updateLoans() {
         for(Loan loan : this.loans)
-            loan.updateLocatorRentAvailability(today);
+            loan.updateLocatorRentAvailability(this.today);
     }
 
     public void printBooks() {
@@ -134,15 +169,183 @@ public class Library{
     	return null;
     }
     
-    public Book findBook(String title){
+    public Book findBook(int isnb){
     	
     	for(Book book : this.books){
-            if(title.equals(book.getTitle())){
+            if(book.getIsnb() == isnb){
             	return book;
             }
         }
     	
     	return null;
+    }
+
+	public void start() {
+        Scanner in = new Scanner(System.in);
+        int option = -1;
+        updateLoans();    
+		
+        while(option != 0){
+
+            option = in.nextInt();
+			in.nextLine();				//this works like a fflush
+		    clearConsole();
+
+            if(option == 1){
+
+                String name, id, telephoneNumber, email, schoolId, academicDegree;
+                System.out.println("Adicione um estudante:");
+				System.out.print("Nome: ");
+                name = in.nextLine();
+				System.out.print("RG: ");
+                id = in.nextLine();
+				System.out.print("Telefone: ");
+                telephoneNumber = in.nextLine();
+				System.out.print("Email: ");
+                email = in.nextLine();
+				System.out.print("RA: ");
+                schoolId = in.nextLine();
+				System.out.print("Grau Academico: ");
+                academicDegree = in.nextLine();
+                    
+
+				addUser(new Student(name, id, telephoneNumber, email, today, schoolId, academicDegree));
+
+			} else if(option == 2){
+
+                String name, id, telephoneNumber, email, researcherID;
+                System.out.println("Adicione um professor:");
+				System.out.print("Nome: ");
+                name = in.nextLine();
+				System.out.print("RG: ");
+                id = in.nextLine();
+				System.out.print("Telefone: ");
+                telephoneNumber = in.nextLine();
+				System.out.print("Email: ");
+                email = in.nextLine();
+				System.out.print("Researcher ID: ");
+                researcherID = in.nextLine();
+                    
+				Professor newProfessor = new Professor(name, id, telephoneNumber, email, today, researcherID);
+
+				addUser(newProfessor);
+
+			}else if(option == 3){
+                
+                String name, id, telephoneNumber, email, profession;
+                System.out.println("Adicione um membro da comunidade:");
+				System.out.print("Nome: ");
+                name = in.nextLine();
+				System.out.print("RG: ");
+                id = in.nextLine();
+				System.out.print("Telefone: ");
+                telephoneNumber = in.nextLine();
+				System.out.print("Email: ");
+                email = in.nextLine();
+				System.out.print("Profissao: ");
+                profession = in.nextLine();
+                    
+				CommunityMember newCommunityMember = new CommunityMember(name, id, telephoneNumber, email, today, profession);
+
+				addUser(newCommunityMember);
+
+			}else if(option == 4){
+
+				String author, title, subtitle, publisher, availible;
+				int edition, bookYear, numPages, isnb, n_authors; 
+				boolean availableForCommunityMember;
+                ArrayList<String> authors = new ArrayList<String>();
+            
+                System.out.println("Adicione um livro:");
+				System.out.print("Titulo: ");
+                title = in.nextLine();
+				System.out.print("SubTitulo: ");
+                subtitle = in.nextLine();
+				System.out.print("Edicao: ");
+                edition = in.nextInt();
+				System.out.print("Ano: ");
+                bookYear = in.nextInt();
+				System.out.print("ISNB: ");
+                isnb = in.nextInt();
+				System.out.print("Numero de autores: ");
+                n_authors = in.nextInt();
+
+                in.nextLine();
+                
+                for(int i=0; i<n_authors; i++) {
+                    System.out.print("Autor " + (i+1) + ": ");
+                    authors.add(in.nextLine());
+                }
+				System.out.print("Editora: ");
+                publisher = in.nextLine();
+                System.out.print("Numero de paginas: ");
+                numPages = in.nextInt();
+				System.out.print("Este livro esta disponivel para a comunidade? (true/false)");
+				availableForCommunityMember = in.nextBoolean();
+
+				Book newBook = new Book(title, subtitle, edition, bookYear, publisher, numPages, availableForCommunityMember, isnb, authors);
+
+			    addBook(newBook);
+
+			}else if(option == 5){		System.out.println("Option 5 selected. Register Loan");
+				
+				//pegar user
+				System.out.print("Digite o RG do usuario: ");
+				String id = in.nextLine();
+				User user = findUser(id);
+				
+				//pegar book
+				System.out.print("Digite o ISNB do livro: ");
+				int isnb = in.nextInt();
+				Book book = findBook(isnb);
+			    	
+				//criar loan
+				Loan loan = new Loan(user, book, today);
+
+				if(user instanceof CommunityMember)
+                    addLoan((CommunityMember)user, book, loan);
+                else 
+                    addLoan(user, book, loan);
+
+			}else if(option == 6){		System.out.println("Option 6 selected. List Books");
+
+				printBooks();
+
+			}else if(option == 7){		System.out.println("Option 7 selected. List Users");
+
+				printUsers();
+
+			}else if(option == 8){		System.out.println("Option 8 selected. List Loans");
+			
+				printLoans();
+
+			}else if(option == 0){		
+                System.out.println("Exit selected");
+            }else if(option == 9) {
+                int isnb;
+
+                System.out.println("Retorno de livro.");
+                System.out.print("ISNB do livro: ");
+                isnb = in.nextInt();
+
+                deleteLoan(isnb);
+	        }
+        }
+	}
+	
+	private final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch (final Exception e) {
+            System.out.println("Error while clearing terminal.");
+        }
     }
 
 }

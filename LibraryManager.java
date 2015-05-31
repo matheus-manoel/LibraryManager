@@ -7,11 +7,11 @@ import java.text.*;
 public class LibraryManager{
 
 	public static void main(String[] args){
-        Library library = new Library();
 		Scanner in = new Scanner(System.in);
 		int option = -1;
         GregorianCalendar today;
         int day, month, year;
+<<<<<<< HEAD
         String line;
 		ArrayList<String> authors = new ArrayList<String>();
 
@@ -216,6 +216,17 @@ public class LibraryManager{
                 library.deleteLoan(isnb);
 	        }
         }
+=======
+	    
+        System.out.println("Insira a data: ");
+		day = in.nextInt();
+	    month = in.nextInt();
+	    year = in.nextInt();
+        today = new GregorianCalendar(year, month, day);
+        Library library = new Library(today);
+        
+        library.start();
+>>>>>>> 2b094052cf5bcfa05894c8aa063c214b77de5c16
 	}
 
 /*
