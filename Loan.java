@@ -69,11 +69,11 @@ public class Loan {
 
     }
     
-    public String getLocator(){
-    	return locator.getName();
+    public User getLocator(){
+    	return this.locator;
     }
 	
-	public String getBook(){
-		return book.getTitle();
+	public Book getBook(){
+		return this.book;
     }
 }

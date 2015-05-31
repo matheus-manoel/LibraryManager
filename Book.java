@@ -1,16 +1,11 @@
 import java.util.*;
 
 public class Book {
-	//todo: getter
-	private ArrayList<String> authors = new ArrayList<String>(); 
-	//todo: getter e setter
+	private ArrayList<String> authors; 
 	private int edition;
 	private String title;
-	//todo: getter e setter
 	private String subtitle;
-	//todo: getter e setter
 	private int year;
-	//todo: getter e setter
 	private int isnb; //International Standard Book Number
 	private String publisher;
 	private int numPages;
@@ -18,7 +13,7 @@ public class Book {
 	private boolean availableForCommunityMember;
 
 	public Book(String title, String subtitle, int edition, int year, 
-				String publisher, int numPages, boolean availableForCommunityMember) {
+				String publisher, int numPages, boolean availableForCommunityMember, int isnb, ArrayList<String> authors) {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.edition = edition;
@@ -27,9 +22,9 @@ public class Book {
 		this.numPages = numPages;
 		this.available = true;
 		this.availableForCommunityMember = availableForCommunityMember;
-
-		//todo: something with isnb and author
-	}
+        this.isnb = isnb;
+	    this.authors = authors;
+    }
 	
 	public void addAuthor(String author) {
 		this.authors.add(author);
@@ -62,4 +57,8 @@ public class Book {
 	public boolean isAvailableForCommunityMember() {
 		return this.availableForCommunityMember;
 	}
+
+    public int getIsnb() {
+        return this.isnb;
+    }
 }

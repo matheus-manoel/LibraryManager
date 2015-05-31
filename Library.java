@@ -6,38 +6,81 @@ public class Library{
 	private ArrayList<Book> books;
 	private ArrayList<User> users; 
 	private ArrayList<Loan> loans;
-
+    
 	public Library() {
 		this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
 		this.loans = new ArrayList<Loan>();
 	}
-	
+    
+    public boolean deleteLoan(int isnb) {
+        Iterator<Loan> iterator = this.loans.iterator();
+
+        while(iterator.hasNext()) {
+            Loan loan = iterator.next();        
+            
+            if(loan.getBook().getIsnb() == isnb) {
+                loan.getLocator().deleteLoan(isnb);
+                loan.getBook().setAvailable(true);  
+                iterator.remove();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 	/* Returns: 
 	 * 1  -> sucesso.
 	 * 0  -> usuário já alugou o máximo de livros possíveis.
 	 * -1 -> livro está alugado.
 	 * -2 -> usuário não tem permissão para alugar esse livro.
 	 */
-	public int addLoan(User locator, Book book, Loan loan) {
+	public int addLoan(CommunityMember locator, Book book, Loan loan) {
 		if(locator.rentedMaxBooks())
 			return 0;
 
 		if(!book.isAvailable())
 			return -1;
-	
-		if((locator instanceof CommunityMember) && !book.isAvailableForCommunityMember())
+		
+        if(!book.isAvailableForCommunityMember())
 			return -2;
 
 		locator.addLoan(loan);
 		book.setAvailable(false); //livro fica indisponível para que outros aluguem
 		this.addLoan(loan);		
 		return 1;
-	}
+    }
+	
+	/* Returns: 
+	 * 1  -> sucesso.
+	 * 0  -> usuário já alugou o máximo de livros possíveis.
+	 * -1 -> livro está alugado.
+	 */
+    public int addLoan(User locator, Book book, Loan loan) {
+		if(locator.rentedMaxBooks())
+			return 0;
 
-	public void addUser(User user) {
+		if(!book.isAvailable())
+			return -1;
+	
+        locator.addLoan(loan);
+		book.setAvailable(false); //livro fica indisponível para que outros aluguem
+		this.addLoan(loan);		
+		return 1;
+    }
+
+	public void addUser(CommunityMember user) {
 		this.users.add(user);
-	}
+    }
+
+	public void addUser(Student user) {
+		this.users.add(user);
+    }
+
+	public void addUser(Professor user) {
+		this.users.add(user);
+    }
 
 	public void addLoan(Loan loan) {
 		this.loans.add(loan);
@@ -84,7 +127,7 @@ public class Library{
     	
     	for(User user : this.users){
             if(id.equals(user.getId())){
-            	return user;
+                return user;
             }
         }
     	

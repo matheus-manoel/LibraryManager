@@ -10,6 +10,13 @@ public class CommunityMember extends User {
 	    this.profession = profession;
     }
 
+	public boolean rentedMaxBooks() {
+		if (this.getLoans().size() < maxRentalBooks)
+			return false;
+
+		return true;
+	}
+
     public int getMaxRentalDays() {
         return this.maxRentalDays;
     }

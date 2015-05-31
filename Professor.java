@@ -10,6 +10,13 @@ public class Professor extends User {
         this.researcherID = researcherID;
 	}
     
+	public boolean rentedMaxBooks() {
+		if (super.getLoans().size() < maxRentalBooks)
+			return false;
+
+		return true;
+	}
+    
     public int getMaxRentalDays() {
         return this.maxRentalDays;
     }

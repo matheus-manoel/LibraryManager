@@ -76,19 +76,14 @@ public class User {
         this.canRent = canRent;
     }
 
-	public boolean addLoan(Loan loan) {
-		//checando se usuario já emprestou o máximo
-		if(this.rentedMaxBooks())
-			return false;
-
+	public void addLoan(Loan loan) {
 		this.loans.add(loan);
-		return true;
 	}
 
     public GregorianCalendar getRentAvailabilityDay() {
         return this.rentAvailabilityDay;
     }
-
+    
     public void setRentAvailabilityDay(GregorianCalendar rentAvailabilityDay) {
         this.rentAvailabilityDay = rentAvailabilityDay;
     }
@@ -99,4 +94,20 @@ public class User {
 
 		return true;
 	}
+
+    protected List<Loan> getLoans() {
+        return this.loans;
+    }
+
+    public void deleteLoan(int isnb) {
+        Iterator<Loan> iterator = this.loans.iterator();
+
+        while(iterator.hasNext()) {
+            Loan loan = iterator.next();        
+            
+            if(loan.getBook().getIsnb() == isnb) {
+                iterator.remove();
+            }
+        }
+    }
 }

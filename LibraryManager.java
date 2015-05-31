@@ -89,10 +89,11 @@ public class LibraryManager{
 
 			}else if(option == 4){
 
-				String title, subtitle, publisher, availible;
-				int edition, bookYear, numPages; 
+				String author, title, subtitle, publisher, availible;
+				int edition, bookYear, numPages, isnb, n_authors; 
 				boolean availableForCommunityMember;
-
+                ArrayList<String> authors = new ArrayList<String>();
+            
                 System.out.println("Adicione um livro:");
 				System.out.print("Titulo: ");
                 title = in.nextLine();
@@ -102,9 +103,17 @@ public class LibraryManager{
                 edition = in.nextInt();
 				System.out.print("Ano: ");
                 bookYear = in.nextInt();
+				System.out.print("ISNB: ");
+                isnb = in.nextInt();
+				System.out.print("Numero de autores: ");
+                n_authors = in.nextInt();
 
                 in.nextLine();
-
+                
+                for(int i=0; i<n_authors; i++) {
+                    System.out.print("Autor " + (i+1) + ": ");
+                    authors.add(in.nextLine());
+                }
 				System.out.print("Editora: ");
                 publisher = in.nextLine();
                 System.out.print("Numero de paginas: ");
@@ -112,7 +121,7 @@ public class LibraryManager{
 				System.out.print("Este livro esta disponivel para a comunidade? (true/false)");
 				availableForCommunityMember = in.nextBoolean();
 
-				Book newBook = new Book(title, subtitle, edition, bookYear, publisher, numPages, availableForCommunityMember);
+				Book newBook = new Book(title, subtitle, edition, bookYear, publisher, numPages, availableForCommunityMember, isnb, authors);
 
 				library.addBook(newBook);
 
@@ -127,11 +136,14 @@ public class LibraryManager{
 				System.out.print("Digite o titulo do livro: ");
 				String title = in.nextLine();
 				Book book = library.findBook(title);
-				
+			    	
 				//criar loan
 				Loan loan = new Loan(user, book, today);
 
-				library.addLoan(user, book, loan);
+				if(user instanceof CommunityMember)
+                    library.addLoan((CommunityMember)user, book, loan);
+                else 
+                    library.addLoan(user, book, loan);
 
 			}else if(option == 6){		System.out.println("Option 6 selected. List Books");
 
@@ -145,9 +157,17 @@ public class LibraryManager{
 			
 				library.printLoans();
 
-			}else if(option == 0){		System.out.println("Exit selected");}
+			}else if(option == 0){		System.out.println("Exit selected");
+            }else if(option == 9) {
+                int isnb;
 
-		}
+                System.out.println("Retorno de livro.");
+                System.out.print("ISNB do livro: ");
+                isnb = in.nextInt();
+
+                library.deleteLoan(isnb);
+	        }
+        }
 	}
 	
 }
