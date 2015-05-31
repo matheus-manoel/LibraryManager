@@ -1,5 +1,5 @@
 //package
-
+import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.*;
@@ -12,7 +12,55 @@ public class LibraryManager{
 		int option = -1;
         GregorianCalendar today;
         int day, month, year;
+        String line;
+		ArrayList<String> authors = new ArrayList<String>();
 
+        //carrega dados dos arquivos
+        File booksFile = new File("Books.csv");
+        File usersFile = new File("users.csv");
+		File loansFile = new File("loans.csv");
+		//loadFileData(library, booksFile, usersFile, loansFile);
+
+
+		try{
+		        FileReader booksReader = new FileReader(booksFile);
+		        BufferedReader booksBuffer = new BufferedReader(booksReader);  
+		        
+		        line = booksBuffer.readLine();
+
+
+				while (line != null){ 
+					
+					String data[] = line.split(", ");			//pega o que tem até o ', '
+
+					String ntitle, nsubtitle, npublisher;
+					int nedition, nyear, nnumPages, nisnb;
+					boolean navailableForCommunityMember;
+
+					ntitle = data[0];
+					nsubtitle = data[1];
+					nedition = Integer.parseInt(data[2]);
+					nyear = Integer.parseInt(data[3]);
+					npublisher = data[4];
+					nnumPages = Integer.parseInt(data[5]);
+					navailableForCommunityMember = Boolean.parseBoolean(data[6]);
+					nisnb = Integer.parseInt(data[7]);
+					authors.add(data[8]);
+
+
+					library.addBook(new Book(ntitle, nsubtitle, nedition, nyear, npublisher, nnumPages, navailableForCommunityMember, nisnb, nauthor));
+					
+					//conferir dados
+					//for(String dados : data){  
+			        //    System.out.println(dados);
+			        //}
+
+			        line = booksBuffer.readLine();
+					
+				}
+		}catch(IOException ex){
+			System.out.println("deu ruim");
+		}
 
 
 		while(option != 0){
@@ -92,8 +140,8 @@ public class LibraryManager{
 				String author, title, subtitle, publisher, availible;
 				int edition, bookYear, numPages, isnb, n_authors; 
 				boolean availableForCommunityMember;
-                ArrayList<String> authors = new ArrayList<String>();
-            
+                //declaração foi la pra cima
+
                 System.out.println("Adicione um livro:");
 				System.out.print("Titulo: ");
                 title = in.nextLine();
@@ -169,5 +217,36 @@ public class LibraryManager{
 	        }
         }
 	}
-	
+
+/*
+	public void loadFileData(Library library, File booksFile, File usersFile, File loansFile){
+
+        FileReader booksReader = new FileReader(booksFile);
+        BufferedReader buffer = new BufferedReader(booksReader);  
+        
+        String line = null;  
+		while ((line = buffer.readLine()) != null){  
+			
+			String data[] = line.split(",");
+
+			for(String dados : data){  
+	            System.out.println(dados);  
+	        }  
+
+			//library.addBook();
+		}
+
+        FileReader usersReader = new FileReader(usersFile);
+        for(String line : usersFile){
+            library.books.addUser();
+        }
+
+        FileReader loansReader = new FileReader(loansFile);
+        for(String line : loansFile){
+            library.books.addLoan();
+        }
+
+
+	}
+	 */
 }
