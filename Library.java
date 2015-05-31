@@ -124,19 +124,51 @@ public class Library{
     public void addBook(Book book) {
         this.books.add(book);
     }
-
-    public void printUsers() {
+    
+    public void printStudent(User user) {
+        List<Loan> loans;
         GregorianCalendar calDate;
         int day, month, year;
-
-        for(User user : this.users) {
-            System.out.println(user.getName());
+       
+        System.out.println("Nome: " + user.getName());
+        System.out.println("RG: " + user.getId());
+        System.out.println("Telefone: " + user.getTelephoneNumber());
+        System.out.println("Email: " + user.getEmail());
+        
+        loans = user.getLoans();
+        System.out.println("Numero de livros alugados: " + loans.size());
+        
+        if(loans.size() != 0) {
+            System.out.print("Livros alugados: ");
+            for(int i=0; i<loans.size(); i++) {
+                Loan loan = loans.get(i);
+                
+                if(i != loans.size()-1)
+                    System.out.print(loan.getBook().getTitle() + ", ");
+                else
+                    System.out.println(loan.getBook().getTitle() + ".");
+            } 
+        } 
+        
+        System.out.print("Pode fazer novos imprestimos no momento: ");
+        if(user.getCanRent())
+            System.out.println("Sim!");
+        else {
+            System.out.println("Nao.");
             calDate = user.getRentAvailabilityDay();
             day = calDate.get(GregorianCalendar.DAY_OF_MONTH); 
             month = calDate.get(GregorianCalendar.MONTH); 
-            year = calDate.get(GregorianCalendar.YEAR); 
-            System.out.println("data que pode fazer emprestimo: " + day + "/" +
-                                month + "/" + year);
+            year = calDate.get(GregorianCalendar.YEAR);
+            System.out.println("Data que podera fazer um novo emprestimo: " + day + "/" + month + "/" + year);
+        }
+
+        System.out.println("----------------");
+    }
+
+    public void printUsers() {
+
+        for(User user : this.users) {
+            printStudent(user); 
         }
     }
     

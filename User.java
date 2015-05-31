@@ -95,7 +95,7 @@ public class User {
 		return true;
 	}
 
-    protected List<Loan> getLoans() {
+    public List<Loan> getLoans() {
         return this.loans;
     }
 
