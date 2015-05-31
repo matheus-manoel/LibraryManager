@@ -71,17 +71,50 @@ public class Library{
 		this.addLoan(loan);		
 		return 1;
     }
+    
+    /* Returns:
+     * 1 -> Sucesso;
+     * 0 -> Mesmo email;
+     * -1 -> Mesmo ID;
+     */
+	public int addUser(CommunityMember comMember) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(comMember.getEmail()))
+                return 0;
 
-	public void addUser(CommunityMember user) {
-		this.users.add(user);
+            if(user.getId().equals(comMember.getId()))
+                return -1;
+        }
+
+		this.users.add(comMember);
+        return 1;
     }
 
-	public void addUser(Student user) {
-		this.users.add(user);
+	public int addUser(Student student) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(student.getEmail()))
+                return 0;
+
+            if(user.getId().equals(student.getId()))
+                return -1;
+        }
+
+		this.users.add(student);
+        return 1;
     }
 
-	public void addUser(Professor user) {
-		this.users.add(user);
+	public int addUser(Professor professor) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(professor.getEmail()))
+                return 0;
+
+            if(user.getId().equals(professor.getId()))
+                return -1;
+            
+        }
+
+		this.users.add(professor);
+        return 1;
     }
 
 	public void addLoan(Loan loan) {
@@ -136,10 +169,10 @@ public class Library{
     	return null;
     }
     
-    public Book findBook(String title){
+    public Book findBook(int isnb){
     	
     	for(Book book : this.books){
-            if(title.equals(book.getTitle())){
+            if(book.getIsnb() == isnb){
             	return book;
             }
         }
@@ -156,7 +189,8 @@ public class Library{
 
             option = in.nextInt();
 			in.nextLine();				//this works like a fflush
-			
+		    clearConsole();
+
             if(option == 1){
 
                 String name, id, telephoneNumber, email, schoolId, academicDegree;
@@ -261,9 +295,9 @@ public class Library{
 				User user = findUser(id);
 				
 				//pegar book
-				System.out.print("Digite o titulo do livro: ");
-				String title = in.nextLine();
-				Book book = findBook(title);
+				System.out.print("Digite o ISNB do livro: ");
+				int isnb = in.nextInt();
+				Book book = findBook(isnb);
 			    	
 				//criar loan
 				Loan loan = new Loan(user, book, today);
@@ -298,5 +332,20 @@ public class Library{
 	        }
         }
 	}
+	
+	private final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch (final Exception e) {
+            System.out.println("Error while clearing terminal.");
+        }
+    }
 
 }
