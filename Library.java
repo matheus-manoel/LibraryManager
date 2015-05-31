@@ -182,7 +182,7 @@ public class Library{
 
 	public void start() {
         Scanner in = new Scanner(System.in);
-        int option = -1;
+        int option = -1, control;
         updateLoans();    
 		
         while(option != 0){
@@ -192,7 +192,7 @@ public class Library{
 		    clearConsole();
 
             if(option == 1){
-
+                
                 String name, id, telephoneNumber, email, schoolId, academicDegree;
                 System.out.println("Adicione um estudante:");
 				System.out.print("Nome: ");
@@ -209,7 +209,14 @@ public class Library{
                 academicDegree = in.nextLine();
                     
 
-				addUser(new Student(name, id, telephoneNumber, email, today, schoolId, academicDegree));
+				control = addUser(new Student(name, id, telephoneNumber, email, today, schoolId, academicDegree));
+
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
 			} else if(option == 2){
 
@@ -228,9 +235,16 @@ public class Library{
                     
 				Professor newProfessor = new Professor(name, id, telephoneNumber, email, today, researcherID);
 
-				addUser(newProfessor);
+				control = addUser(newProfessor);
+                
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
-			}else if(option == 3){
+			} else if(option == 3){
                 
                 String name, id, telephoneNumber, email, profession;
                 System.out.println("Adicione um membro da comunidade:");
@@ -247,7 +261,14 @@ public class Library{
                     
 				CommunityMember newCommunityMember = new CommunityMember(name, id, telephoneNumber, email, today, profession);
 
-				addUser(newCommunityMember);
+				control = addUser(newCommunityMember);
+                
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
 			}else if(option == 4){
 
@@ -293,19 +314,24 @@ public class Library{
 				System.out.print("Digite o RG do usuario: ");
 				String id = in.nextLine();
 				User user = findUser(id);
-				
+			        
 				//pegar book
 				System.out.print("Digite o ISNB do livro: ");
 				int isnb = in.nextInt();
 				Book book = findBook(isnb);
-			    	
-				//criar loan
-				Loan loan = new Loan(user, book, today);
+			    
+                if(user == null) 
+                    System.out.println("Usuario nao encontrado.");
+                else if(book == null)
+                    System.out.println("Livro nao encontrado.");
+				else {
+                    Loan loan = new Loan(user, book, today);
 
-				if(user instanceof CommunityMember)
-                    addLoan((CommunityMember)user, book, loan);
-                else 
-                    addLoan(user, book, loan);
+                    if(user instanceof CommunityMember)
+                        addLoan((CommunityMember)user, book, loan);
+                    else 
+                        addLoan(user, book, loan);
+                }
 
 			}else if(option == 6){		System.out.println("Option 6 selected. List Books");
 
@@ -319,8 +345,6 @@ public class Library{
 			
 				printLoans();
 
-			}else if(option == 0){		
-                System.out.println("Exit selected");
             }else if(option == 9) {
                 int isnb;
 
@@ -329,7 +353,9 @@ public class Library{
                 isnb = in.nextInt();
 
                 deleteLoan(isnb);
-	        }
+	        }else if(option == 0){		
+                System.out.println("Exit selected");
+            }
         }
 	}
 	
