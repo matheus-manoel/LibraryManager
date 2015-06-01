@@ -7,8 +7,10 @@ public class Library{
 	private ArrayList<User> users; 
 	private ArrayList<Loan> loans;
     private GregorianCalendar today;
-
+	private CSVManager csvm;
+	
 	public Library(GregorianCalendar today) {
+		this.csvm = new CSVManager("Users.csv", "Books.csv", "Loans.csv");
 		this.today = today;
         this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
@@ -123,6 +125,7 @@ public class Library{
     
     public void addBook(Book book) {
         this.books.add(book);
+        csvm.addBook(book);
     }
     
     public void printStudent(User user) {

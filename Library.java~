@@ -7,8 +7,10 @@ public class Library{
 	private ArrayList<User> users; 
 	private ArrayList<Loan> loans;
     private GregorianCalendar today;
-
+	private CSVManager csvm;
+	
 	public Library(GregorianCalendar today) {
+		this.csvm = new CSVManager("Users.csv", "Books.csv", "Loans.csv");
 		this.today = today;
         this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
@@ -71,17 +73,50 @@ public class Library{
 		this.addLoan(loan);		
 		return 1;
     }
+    
+    /* Returns:
+     * 1 -> Sucesso;
+     * 0 -> Mesmo email;
+     * -1 -> Mesmo ID;
+     */
+	public int addUser(CommunityMember comMember) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(comMember.getEmail()))
+                return 0;
 
-	public void addUser(CommunityMember user) {
-		this.users.add(user);
+            if(user.getId().equals(comMember.getId()))
+                return -1;
+        }
+
+		this.users.add(comMember);
+        return 1;
     }
 
-	public void addUser(Student user) {
-		this.users.add(user);
+	public int addUser(Student student) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(student.getEmail()))
+                return 0;
+
+            if(user.getId().equals(student.getId()))
+                return -1;
+        }
+
+		this.users.add(student);
+        return 1;
     }
 
-	public void addUser(Professor user) {
-		this.users.add(user);
+	public int addUser(Professor professor) {
+        for(User user : this.users) {
+            if(user.getEmail().equals(professor.getEmail()))
+                return 0;
+
+            if(user.getId().equals(professor.getId()))
+                return -1;
+            
+        }
+
+		this.users.add(professor);
+        return 1;
     }
 
 	public void addLoan(Loan loan) {
@@ -91,19 +126,51 @@ public class Library{
     public void addBook(Book book) {
         this.books.add(book);
     }
-
-    public void printUsers() {
+    
+    public void printStudent(User user) {
+        List<Loan> loans;
         GregorianCalendar calDate;
         int day, month, year;
-
-        for(User user : this.users) {
-            System.out.println(user.getName());
+       
+        System.out.println("Nome: " + user.getName());
+        System.out.println("RG: " + user.getId());
+        System.out.println("Telefone: " + user.getTelephoneNumber());
+        System.out.println("Email: " + user.getEmail());
+        
+        loans = user.getLoans();
+        System.out.println("Numero de livros alugados: " + loans.size());
+        
+        if(loans.size() != 0) {
+            System.out.print("Livros alugados: ");
+            for(int i=0; i<loans.size(); i++) {
+                Loan loan = loans.get(i);
+                
+                if(i != loans.size()-1)
+                    System.out.print(loan.getBook().getTitle() + ", ");
+                else
+                    System.out.println(loan.getBook().getTitle() + ".");
+            } 
+        } 
+        
+        System.out.print("Pode fazer novos imprestimos no momento: ");
+        if(user.getCanRent())
+            System.out.println("Sim!");
+        else {
+            System.out.println("Nao.");
             calDate = user.getRentAvailabilityDay();
             day = calDate.get(GregorianCalendar.DAY_OF_MONTH); 
             month = calDate.get(GregorianCalendar.MONTH); 
-            year = calDate.get(GregorianCalendar.YEAR); 
-            System.out.println("data que pode fazer emprestimo: " + day + "/" +
-                                month + "/" + year);
+            year = calDate.get(GregorianCalendar.YEAR);
+            System.out.println("Data que podera fazer um novo emprestimo: " + day + "/" + month + "/" + year);
+        }
+
+        System.out.println("----------------");
+    }
+
+    public void printUsers() {
+
+        for(User user : this.users) {
+            printStudent(user); 
         }
     }
     
@@ -136,10 +203,10 @@ public class Library{
     	return null;
     }
     
-    public Book findBook(String title){
+    public Book findBook(int isnb){
     	
     	for(Book book : this.books){
-            if(title.equals(book.getTitle())){
+            if(book.getIsnb() == isnb){
             	return book;
             }
         }
@@ -149,16 +216,17 @@ public class Library{
 
 	public void start() {
         Scanner in = new Scanner(System.in);
-        int option = -1;
+        int option = -1, control;
         updateLoans();    
 		
         while(option != 0){
 
             option = in.nextInt();
 			in.nextLine();				//this works like a fflush
-			
-            if(option == 1){
+		    clearConsole();
 
+            if(option == 1){
+                
                 String name, id, telephoneNumber, email, schoolId, academicDegree;
                 System.out.println("Adicione um estudante:");
 				System.out.print("Nome: ");
@@ -175,7 +243,14 @@ public class Library{
                 academicDegree = in.nextLine();
                     
 
-				addUser(new Student(name, id, telephoneNumber, email, today, schoolId, academicDegree));
+				control = addUser(new Student(name, id, telephoneNumber, email, today, schoolId, academicDegree));
+
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
 			} else if(option == 2){
 
@@ -194,9 +269,16 @@ public class Library{
                     
 				Professor newProfessor = new Professor(name, id, telephoneNumber, email, today, researcherID);
 
-				addUser(newProfessor);
+				control = addUser(newProfessor);
+                
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
-			}else if(option == 3){
+			} else if(option == 3){
                 
                 String name, id, telephoneNumber, email, profession;
                 System.out.println("Adicione um membro da comunidade:");
@@ -213,7 +295,14 @@ public class Library{
                     
 				CommunityMember newCommunityMember = new CommunityMember(name, id, telephoneNumber, email, today, profession);
 
-				addUser(newCommunityMember);
+				control = addUser(newCommunityMember);
+                
+                if(control == 1)
+                    System.out.println("Usuario adicionando com sucesso!");
+                else if(control == 0) //email e id
+                    System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
+                else if(control == -1)
+                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
 
 			}else if(option == 4){
 
@@ -259,19 +348,24 @@ public class Library{
 				System.out.print("Digite o RG do usuario: ");
 				String id = in.nextLine();
 				User user = findUser(id);
-				
+			        
 				//pegar book
-				System.out.print("Digite o titulo do livro: ");
-				String title = in.nextLine();
-				Book book = findBook(title);
-			    	
-				//criar loan
-				Loan loan = new Loan(user, book, today);
+				System.out.print("Digite o ISNB do livro: ");
+				int isnb = in.nextInt();
+				Book book = findBook(isnb);
+			    
+                if(user == null) 
+                    System.out.println("Usuario nao encontrado.");
+                else if(book == null)
+                    System.out.println("Livro nao encontrado.");
+				else {
+                    Loan loan = new Loan(user, book, today);
 
-				if(user instanceof CommunityMember)
-                    addLoan((CommunityMember)user, book, loan);
-                else 
-                    addLoan(user, book, loan);
+                    if(user instanceof CommunityMember)
+                        addLoan((CommunityMember)user, book, loan);
+                    else 
+                        addLoan(user, book, loan);
+                }
 
 			}else if(option == 6){		System.out.println("Option 6 selected. List Books");
 
@@ -285,8 +379,6 @@ public class Library{
 			
 				printLoans();
 
-			}else if(option == 0){		
-                System.out.println("Exit selected");
             }else if(option == 9) {
                 int isnb;
 
@@ -295,8 +387,25 @@ public class Library{
                 isnb = in.nextInt();
 
                 deleteLoan(isnb);
-	        }
+	        }else if(option == 0){		
+                System.out.println("Exit selected");
+            }
         }
 	}
+	
+	private final static void clearConsole(){
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        }
+        catch (final Exception e) {
+            System.out.println("Error while clearing terminal.");
+        }
+    }
 
 }
