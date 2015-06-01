@@ -10,7 +10,7 @@ public class Library{
 	private CSVManager csvm;
 	
 	public Library(GregorianCalendar today) {
-		this.csvm = new CSVManager("Users.csv", "Books.csv", "Loans.csv");
+		this.csvm = new CSVManager("Users.csv", "Books.csv", "Loans.csv", today);
 		this.today = today;
         this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
