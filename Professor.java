@@ -28,4 +28,9 @@ public class Professor extends User {
     public void setResearcherID(String researcherID) {
         this.researcherID = researcherID;
     }
+    
+    public String toString() {
+        return "Professor";
+    }
+
 }

@@ -19,12 +19,14 @@ public class Loan {
 		this.initial_cal = 
 			new GregorianCalendar(today.get(GregorianCalendar.YEAR),
 								  today.get(GregorianCalendar.MONTH),
-				   				  today.get(GregorianCalendar.DAY_OF_MONTH));
+				   				  today.get(GregorianCalendar.DAY_OF_MONTH),
+                                  0, 0, 0);
 		
 		this.deliveryCal = 
 			new GregorianCalendar(today.get(GregorianCalendar.YEAR),
 								  today.get(GregorianCalendar.MONTH),
-				   				  today.get(GregorianCalendar.DAY_OF_MONTH));
+				   				  today.get(GregorianCalendar.DAY_OF_MONTH),
+                                  0, 0, 0);
 		
 		//adicionando o número de dias máximo que o locator pode ficar com o livro
 		this.deliveryCal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
@@ -41,7 +43,8 @@ public class Loan {
         GregorianCalendar newLocatorRentAvailableDay = 
                                     new GregorianCalendar(today.get(GregorianCalendar.YEAR),
 								                          today.get(GregorianCalendar.MONTH),
-				   				                          today.get(GregorianCalendar.DAY_OF_MONTH));
+				   				                          today.get(GregorianCalendar.DAY_OF_MONTH), 
+                                                          0, 0, 0);
 
         //checando se a data de entrega já passou
         if(today.after(this.deliveryCal)) {

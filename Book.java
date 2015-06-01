@@ -25,12 +25,32 @@ public class Book {
         this.isnb = isnb;
 	    this.authors = authors;
     }
-	
+    
+    public String getSubtitle() {
+        return this.subtitle;
+    }
+
+    public int getEdition() {
+        return this.edition;
+    }
+
+    public int getYear() {
+        return this.year;
+    }
+    
+    public int getNumPages() {
+        return this.numPages;
+    }
+
 	public void addAuthor(String author) {
 		this.authors.add(author);
 	}
 
-	public void setAvailable(boolean available) {
+	public ArrayList<String> getAuthors() {
+        return this.authors;
+    }
+    
+    public void setAvailable(boolean available) {
 		this.available = available;
 	}
 	

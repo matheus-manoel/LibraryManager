@@ -30,5 +30,8 @@ public class Student extends User {
 	public String getSchoolId(){
 		return this.schoolId;
 	}
-
+    
+    public String toString() {
+        return "Student";
+    }
 }

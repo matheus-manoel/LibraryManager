@@ -28,4 +28,8 @@ public class CommunityMember extends User {
     public void setProfession(String profession) {
         this.profession = profession;
     }
+
+    public String toString() {
+        return "CommunityMember";
+    }
 }

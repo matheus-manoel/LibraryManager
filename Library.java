@@ -8,8 +8,8 @@ public class Library{
 	private ArrayList<Loan> loans;
     private GregorianCalendar today;
 
-	public Library(GregorianCalendar today) {
-		this.today = today;
+	public Library(int day, int month, int year) {
+		this.today = new GregorianCalendar(year, month, day, 0, 0, 0);
         this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
 		this.loans = new ArrayList<Loan>();
@@ -177,9 +177,42 @@ public class Library{
             loan.updateLocatorRentAvailability(this.today);
     }
 
+    public void printBook(Book book) {
+        ArrayList<String> authors = book.getAuthors();
+
+        System.out.println("Titulo: " + book.getTitle());  
+        System.out.println("Subtitulo: " + book.getSubtitle()); 
+       
+        System.out.print("Autor(es): ");
+        for(int i=0; i<authors.size(); i++)
+            if(i != authors.size()-1)
+                System.out.print(authors.get(i) + ", ");
+            else
+                System.out.println(authors.get(i) + ".");
+        
+        System.out.println("Edicao: " + book.getEdition()); 
+        System.out.println("Ano: " + book.getYear()); 
+        System.out.println("ISNB: " + book.getIsnb()); 
+        System.out.println("Numero de paginas: " + book.getNumPages()); 
+        
+        System.out.print("Disponivel para membros da comunidade: ");
+        if(book.isAvailableForCommunityMember())
+           System.out.println("Sim!");
+        else
+           System.out.println("Nao.");
+
+        System.out.print("Disponivel para emprestimo: ");
+        if(book.isAvailable())
+           System.out.println("Sim!");
+        else
+           System.out.println("Nao. Esta alugado.");
+        
+        System.out.println("-------------------");
+    }
+
     public void printBooks() {
         for(Book book : this.books)
-            System.out.println(book.getTitle());
+            printBook(book);
     }
     
     public void printLoans() {
@@ -212,7 +245,16 @@ public class Library{
     	return null;
     }
 
-	public void start() {
+	public void updateUsers() {
+        for(User user : this.users) {
+            if(!user.getCanRent()) {
+                if(this.today.compareTo(user.getRentAvailabilityDay()) >= 0)
+                    user.setCanRent(true);
+            }
+        }
+    }
+    
+    public void start() {
         Scanner in = new Scanner(System.in);
         int option = -1, control;
         updateLoans();    
