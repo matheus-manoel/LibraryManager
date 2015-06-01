@@ -123,9 +123,21 @@ public class Library{
 		this.loans.add(loan);
 	}
     
-    public void addBook(Book book) {
+    /* Returns:
+     * true -> Sucesso.
+     * false -> ISNB igual.
+     */
+    public boolean addBook(Book book) {
+        for(Book cmpBook : this.books) {
+
+            if(book.getIsnb() == cmpBook.getIsnb())
+                return false;
+        
+        }
+
         this.books.add(book);
         csvm.addBook(book);
+        return true;
     }
     
     public void printUser(User user) {
@@ -175,9 +187,54 @@ public class Library{
 
         System.out.println("----------------");
     }
+    
+	public void printBook(Book book) {
+	    ArrayList<String> authors = book.getAuthors();
+
+        System.out.println("Titulo: " + book.getTitle());  
+        System.out.println("Subtitulo: " + book.getSubtitle()); 
+       
+        System.out.print("Autor(es): ");
+        for(int i=0; i<authors.size(); i++)
+            if(i != authors.size()-1)
+                System.out.print(authors.get(i) + ", ");
+            else
+                System.out.println(authors.get(i) + ".");
+        
+        System.out.println("Edicao: " + book.getEdition()); 
+        System.out.println("Ano: " + book.getYear()); 
+        System.out.println("ID unico: " + book.getIsnb()); 
+        System.out.println("Numero de paginas: " + book.getNumPages()); 
+        
+        System.out.print("Disponivel para membros da comunidade: ");
+        if(book.isAvailableForCommunityMember())
+           System.out.println("Sim!");
+        else
+           System.out.println("Nao.");
+
+        System.out.print("Disponivel para emprestimo: ");
+        if(book.isAvailable())
+           System.out.println("Sim!");
+        else
+           System.out.println("Nao. Esta alugado.");
+        
+        System.out.println("-------------------");
+    }
+
+    public void printBooks() {
+        for(Book book : this.books)
+            printBook(book);
+    }
+    
+    public void printLoans() {
+        for(Loan loan : this.loans){
+            System.out.print("Emprestimo: ");
+            System.out.print(loan.getLocator());
+            System.out.print(" " + loan.getBook());
+        }
+    }
 
     public void printUsers() {
-
         for(User user : this.users) {
             printUser(user); 
         }
@@ -188,19 +245,6 @@ public class Library{
             loan.updateLocatorRentAvailability(this.today);
     }
 
-    public void printBooks() {
-        for(Book book : this.books)
-            System.out.println(book.getTitle());
-    }
-    
-    public void printLoans() {
-        for(Loan loan : this.loans){
-            System.out.print("Emprestimo: ");
-            System.out.print(loan.getLocator());
-            System.out.print(" " + loan.getBook());
-        }
-    }
-    
     public User findUser(String id){
     	
     	for(User user : this.users){
@@ -222,10 +266,20 @@ public class Library{
     	
     	return null;
     }
+    
+    public void updateUsers() {
+        for(User user : this.users) {
+            if(!user.getCanRent()) {
+                if(this.today.compareTo(user.getRentAvailabilityDay()) >= 0)
+                    user.setCanRent(true);
+            }
+        }
+    }
 
 	public void start() {
         Scanner in = new Scanner(System.in);
         int option = -1, control;
+        updateUsers();
         updateLoans();    
 		
         while(option != 0){
@@ -311,7 +365,7 @@ public class Library{
                 else if(control == 0) //email e id
                     System.out.println("Erro: ja existe um usuario com esse email cadastrado.");
                 else if(control == -1)
-                    System.out.println("Erro: ja existe um usuario com esse ID cadastrado.");
+                    System.out.println("Erro: ja existe um usuario com esse RG cadastrado.");
 
 			}else if(option == 4){
 
@@ -329,7 +383,7 @@ public class Library{
                 edition = in.nextInt();
 				System.out.print("Ano: ");
                 bookYear = in.nextInt();
-				System.out.print("ISNB: ");
+				System.out.print("ID unico: ");
                 isnb = in.nextInt();
 				System.out.print("Numero de autores: ");
                 n_authors = in.nextInt();
@@ -349,7 +403,12 @@ public class Library{
 
 				Book newBook = new Book(title, subtitle, edition, bookYear, publisher, numPages, availableForCommunityMember, isnb, authors);
 
-			    addBook(newBook);
+			    Boolean controlBool = addBook(newBook);
+                
+                if(controlBool)
+                    System.out.println("Livro adicionado com sucesso!\n---------------------");
+                else
+                    System.out.println("Ja existe um livro adicionado com esse ISNB!\n---------------------");
 
 			}else if(option == 5){		System.out.println("Option 5 selected. Register Loan");
 				
@@ -359,7 +418,7 @@ public class Library{
 				User user = findUser(id);
 			        
 				//pegar book
-				System.out.print("Digite o ISNB do livro: ");
+				System.out.print("Digite o ID unico do livro: ");
 				int isnb = in.nextInt();
 				Book book = findBook(isnb);
 			    
@@ -392,7 +451,7 @@ public class Library{
                 int isnb;
 
                 System.out.println("Retorno de livro.");
-                System.out.print("ISNB do livro: ");
+                System.out.print("ID unico do livro: ");
                 isnb = in.nextInt();
 
                 deleteLoan(isnb);
