@@ -13,14 +13,34 @@ public class CSVManager {
     	this.userFile = new File(userFileName);
     	this.bookFile = new File(bookFileName);
     	this.loanFile = new File(loanFileName);
-    	
+        
+        if(!this.userFile.exists()) {
+            try {
+                this.userFile.createNewFile();        
+            } catch (Exception e) {
+                System.out.println("Nao foi possivel criar o arquivo de usuarios.");
+            }   
+        }
+        if(!this.bookFile.exists()) {
+            try {
+                this.bookFile.createNewFile();        
+            } catch (Exception e) {
+                System.out.println("Nao foi possivel criar o arquivo de livros.");
+            }   
+        }
+        if(!this.loanFile.exists()) {
+            try {
+                this.loanFile.createNewFile();        
+            } catch (Exception e) {
+                System.out.println("Nao foi possivel criar o arquivo de emprestimos.");
+            }   
+        }
     }
-
 
     public void addUser(User user) {
     	
     	try{
-			FileWriter userWriter = new FileWriter(userFile);
+			FileWriter userWriter = new FileWriter(userFile, true);
 			BufferedWriter userBuffer = new BufferedWriter(userWriter);
 			
 			userBuffer.write(user.getName());
@@ -89,7 +109,7 @@ public class CSVManager {
 			
 			ArrayList<String> authors = book.getAuthors();
 			
-			bookBuffer.write(authors.size());
+			bookBuffer.write(String.valueOf(authors.size()));
 			bookBuffer.write(", ");
 
 			int i;
@@ -137,7 +157,7 @@ public class CSVManager {
     public void addLoan(Loan loan) {
     
     	try{
-			FileWriter loanWriter = new FileWriter(loanFile);
+			FileWriter loanWriter = new FileWriter(loanFile, true);
 			BufferedWriter loanBuffer = new BufferedWriter(loanWriter);
 			
 			loanBuffer.write(loan.getBook().getIsnb());
@@ -160,16 +180,89 @@ public class CSVManager {
 		                            deliveryCal.get(GregorianCalendar.YEAR));
 		                            
 		    loanBuffer.write("\n");
+
+            loanBuffer.close();
+
         } catch (IOException ex){
         	System.out.println("Failed at writing in file");
         }
 
 	}
+	
+	public ArrayList<Book> readBook(){
+		
+		ArrayList<Book> books = new ArrayList<Book>();
 
-	public void readBook(){
+		try{
+			
+			BufferedReader bookBuffer = new BufferedReader(new FileReader(bookFile));
+			
+			String line = bookBuffer.readLine();
 
-		sss
+			while(line != null){
+				
+				String data[] = line.split(", ");
+			
+				String ftitle = data[0];
+//				System.out.println(ftitle);				
+				String fsubtitle = data[1];
+//				System.out.println(fsubtitle);
+				int fnumOfAuthors = Integer.parseInt(data[2]);
+//				System.out.println(fnumOfAuthors);
+				
+				//para ler os autores
+				ArrayList<String> authors = new ArrayList<String>();
+				int i;
+				for(i=0; i<fnumOfAuthors; i++){
+					authors.add(data[3+i]);
+					System.out.println(3+i+" " + authors.get(i));
+				}
+				
+				//arrumar aqui
+				int fedition = Integer.parseInt(data[4+i]);
+				System.out.println(i+4 +" "+ fedition);
+				int fyear = Integer.parseInt(data[5+i]);
+				System.out.println(i+5 +" "+ fyear);
+				String fpublisher = data[6+i];
+				System.out.println(i+6 + fpublisher);				
+				int fnumOfPages = Integer.parseInt(data[7+i]);
+				System.out.println(i+7 + fnumOfPages);			
+				
+				//para ler o boolean
+				boolean favailableForCommunityMember;
+				if(data[8+i].equals("true")){
+					favailableForCommunityMember = true;
+				}else {
+					favailableForCommunityMember = false;
+				}
+				
+				int fisnb = Integer.parseInt(data[9+i]);
 
+				//para ler a data
+				String date[] = line.split("/");
+				int day = Integer.parseInt(date[0]);
+				int month = Integer.parseInt(date[1]);				
+				int year = Integer.parseInt(date[2]);				
+				
+				/*GregorianCalendar fdate = new GregorianCalendar();
+				fdate.set(GregorianCalendar.DAY, day);
+				fdate.set(GregorianCalendar.MONTH, month);
+				fdate.set(GregorianCalendar.YEAR, year);
+				*/
+				
+				Book fbook = new Book(ftitle, fsubtitle, fedition, fyear, fpublisher, fnumOfPages, favailableForCommunityMember, fisnb, authors);
+				books.add(fbook);
+				
+				line = bookBuffer.readLine();
+				
+			}
+			
+			
+		} catch (IOException ex) {
+			System.out.println("Failed at reading the file");
+		}
+		
+		return books;
 	}
 
 }

@@ -15,6 +15,9 @@ public class Library{
         this.books = new ArrayList<Book>();
 		this.users = new ArrayList<User>();
 		this.loans = new ArrayList<Loan>();
+		
+		books = csvm.readBook();
+		
 	}
     
     public boolean deleteLoan(int isnb) {
@@ -52,7 +55,8 @@ public class Library{
 
 		locator.addLoan(loan);
 		book.setAvailable(false); //livro fica indisponível para que outros aluguem
-		this.addLoan(loan);		
+        this.loans.add(loan);		
+		this.csvm.addLoan(loan);
 		return 1;
     }
 	
@@ -70,29 +74,31 @@ public class Library{
 	
         locator.addLoan(loan);
 		book.setAvailable(false); //livro fica indisponível para que outros aluguem
-		this.addLoan(loan);		
-		return 1;
+		this.loans.add(loan);		
+	    this.csvm.addLoan(loan);
+        return 1;
     }
-    
+
     /* Returns:
      * 1 -> Sucesso;
      * 0 -> Mesmo email;
      * -1 -> Mesmo ID;
      */
-	public int addUser(CommunityMember comMember) {
-        for(User user : this.users) {
-            if(user.getEmail().equals(comMember.getEmail()))
+	public int addUser(User user) {
+        for(User cmpUser : this.users) {
+            if(user.getEmail().equals(cmpUser.getEmail()))
                 return 0;
 
-            if(user.getId().equals(comMember.getId()))
+            if(user.getId().equals(cmpUser.getId()))
                 return -1;
         }
 
-		this.users.add(comMember);
+		this.users.add(user);
+        csvm.addUser(user);
         return 1;
     }
 
-	public int addUser(Student student) {
+/*	public int addUser(Student student) {
         for(User user : this.users) {
             if(user.getEmail().equals(student.getEmail()))
                 return 0;
@@ -118,10 +124,7 @@ public class Library{
 		this.users.add(professor);
         return 1;
     }
-
-	public void addLoan(Loan loan) {
-		this.loans.add(loan);
-	}
+*/
     
     /* Returns:
      * true -> Sucesso.
