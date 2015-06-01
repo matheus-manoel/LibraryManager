@@ -5,9 +5,11 @@ public class CSVManager {
 	private File userFile;
 	private File bookFile;
 	private File loanFile;
-			
-    public CSVManager(String userFileName, String bookFileName, String loanFileName) {
+	private GregorianCalendar today;
+
+    public CSVManager(String userFileName, String bookFileName, String loanFileName, GregorianCalendar today) {
     	
+    	this.today = today;	
     	this.userFile = new File(userFileName);
     	this.bookFile = new File(bookFileName);
     	this.loanFile = new File(loanFileName);
@@ -49,16 +51,22 @@ public class CSVManager {
 				userBuffer.write(user.getSchoolId());
 				userBuffer.write(", ");
 				userBuffer.write(user.getAcademicDegree());
-				userBuffer.write("\n");
+				userBuffer.write(", ");
 			
 			}else if(user.toString() == "Professor"){
 				userBuffer.write(user.getResearcherID());
-				userBuffer.write("\n");
+				userBuffer.write(", ");
 			
 			}else if(user.toString() == "CommunityMember"){
 				userBuffer.write(user.getProfession());
-				userBuffer.write("\n");
+				userBuffer.write(", ");
 			}
+
+			userBuffer.write(today.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
+		                            today.get(GregorianCalendar.MONTH) + "/" +
+		                            today.get(GregorianCalendar.YEAR));
+
+			userBuffer.write("\n");
 			
 			userBuffer.close();
 			
@@ -74,12 +82,25 @@ public class CSVManager {
 			FileWriter bookWriter = new FileWriter(bookFile, true);
 			BufferedWriter bookBuffer = new BufferedWriter(bookWriter);
 			
-			return 
-			
 			bookBuffer.write(book.getTitle());
 			bookBuffer.write(", ");
 			bookBuffer.write(book.getSubtitle());
 			bookBuffer.write(", ");
+			
+			ArrayList<String> authors = book.getAuthors();
+			
+			bookBuffer.write(authors.size());
+			bookBuffer.write(", ");
+
+			int i;
+
+			for(i = 0; i < authors.size(); i++){
+			
+				bookBuffer.write(authors.get(i));
+				bookBuffer.write(", ");
+						
+			}
+
 			bookBuffer.write(String.valueOf(book.getEdition()));
 			bookBuffer.write(", ");
 			bookBuffer.write(String.valueOf(book.getYear()));
@@ -97,19 +118,13 @@ public class CSVManager {
 			
 			bookBuffer.write(", ");
 			bookBuffer.write(String.valueOf(book.getIsnb()));
-			bookBuffer.write(", ");
-			
-			ArrayList<String> authors = book.getAuthors();
-			
-			int i;
 
-			for(i = 0; i < authors.size(); i++){
-			
-				bookBuffer.write(authors.get(i));
-				bookBuffer.write(", ");
-						
-			}
-			
+			bookBuffer.write(", ");
+			//salva a data de criação
+			bookBuffer.write(today.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
+		                            today.get(GregorianCalendar.MONTH) + "/" +
+		                            today.get(GregorianCalendar.YEAR));
+
 			bookBuffer.write("\n");
 			
 			bookBuffer.close();
@@ -148,6 +163,12 @@ public class CSVManager {
         } catch (IOException ex){
         	System.out.println("Failed at writing in file");
         }
+
+	}
+
+	public void readBook(){
+
+		sss
 
 	}
 
