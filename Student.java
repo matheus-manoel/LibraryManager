@@ -26,6 +26,10 @@ public class Student extends User {
 	public void setSchoolId(String schoolId){
 		this.schoolId = schoolId;
 	}
+    
+    public String getAcademicDegree() {
+        return this.academicDegree;
+    }
 
 	public String getSchoolId(){
 		return this.schoolId;

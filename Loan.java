@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Loan {
 	private User locator; 
-	private GregorianCalendar initial_cal, deliveryCal; 
+	private GregorianCalendar initialCal, deliveryCal; 
 	private Book book;
 	
 	public Loan(User locator, Book book, GregorianCalendar today){
@@ -16,7 +16,7 @@ public class Loan {
 		 * mudaria. Por isso é necessário a criação de outro objeto, passando como
 		 * argumento os valores do que queremos copiar.
 		 */
-		this.initial_cal = 
+		this.initialCal = 
 			new GregorianCalendar(today.get(GregorianCalendar.YEAR),
 								  today.get(GregorianCalendar.MONTH),
 				   				  today.get(GregorianCalendar.DAY_OF_MONTH));
@@ -69,6 +69,14 @@ public class Loan {
 
     }
     
+    public GregorianCalendar getInitialCal() {
+        return this.initialCal;
+    }
+
+    public GregorianCalendar getDeliveryCal() {
+        return this.deliveryCal;
+    }
+
     public User getLocator(){
     	return this.locator;
     }

@@ -8,9 +8,8 @@ public class User {
 	private ArrayList<Loan> loans;
     private boolean canRent;
     private GregorianCalendar rentAvailabilityDay;
-	
-    //arbitrary constant
-    private static int libID;
+    private String profession, schoolId, researcherID, academicDegree;
+      
 	private static final int maxRentalBooks = 500;
     private static final int maxRentalDays = 20;
 	
@@ -24,20 +23,28 @@ public class User {
         this.rentAvailabilityDay = today;
     }
 
-	public void setName(String name){
+    public String getResearcherID() {
+        return this.researcherID;
+    }
+
+    public String getProfession() {
+        return this.profession;
+    }
+
+	public String getSchoolId(){
+		return this.schoolId;
+	}
+    
+    public String getAcademicDegree() {
+        return this.academicDegree;
+    }
+	
+    public void setName(String name){
 		this.name = name;
 	}
 
 	public String getName(){
 		return this.name;
-	}
-
-	public void setLibId(int libID){
-		this.libID = libID;
-	}
-
-	public int getLibID(){
-		return this.libID;
 	}
 
 	public void setId(String id){

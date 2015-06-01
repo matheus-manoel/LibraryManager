@@ -128,7 +128,7 @@ public class Library{
         csvm.addBook(book);
     }
     
-    public void printStudent(User user) {
+    public void printUser(User user) {
         List<Loan> loans;
         GregorianCalendar calDate;
         int day, month, year;
@@ -153,6 +153,14 @@ public class Library{
             } 
         } 
         
+        if(user.toString().equals("CommunityMember"))
+            System.out.println("Profissao: " + user.getProfession());
+        else if(user.toString().equals("Student")) {
+            System.out.println("RA: " + user.getSchoolId());
+            System.out.println("Grau Academico: " + user.getAcademicDegree());
+        } else if(user.toString().equals("Professor"))
+            System.out.println("ID de pesquisador: " + user.getResearcherID());
+
         System.out.print("Pode fazer novos imprestimos no momento: ");
         if(user.getCanRent())
             System.out.println("Sim!");
@@ -171,7 +179,7 @@ public class Library{
     public void printUsers() {
 
         for(User user : this.users) {
-            printStudent(user); 
+            printUser(user); 
         }
     }
     
