@@ -9,7 +9,6 @@ public class Professor extends User {
 		super(name, id, telephoneNumber, email, true, today);
         this.researcherID = researcherID;
 	}
-    
 	public boolean rentedMaxBooks() {
 		if (super.getLoans().size() < maxRentalBooks)
 			return false;
@@ -27,5 +26,9 @@ public class Professor extends User {
 
     public void setResearcherID(String researcherID) {
         this.researcherID = researcherID;
+    }
+    
+    public String toString() {
+        return "Professor";
     }
 }

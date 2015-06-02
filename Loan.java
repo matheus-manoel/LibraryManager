@@ -4,10 +4,14 @@ public class Loan {
 	private User locator; 
 	private GregorianCalendar initialCal, deliveryCal; 
 	private Book book;
+	private int bookId;
+	private String userId;
 	
 	public Loan(User locator, Book book, GregorianCalendar today){
 		this.locator = locator;
 		this.book = book;
+		this.bookId = this.book.getIsnb();
+		this.userId = this.locator.getId();
 		
 		/* Aqui acontece algo iteressante: não podemos simplesmente declarar objetos
 		 * do tipo GregorianCalendar e atribuir outro objeto do mesmo tipo a ele,
@@ -69,12 +73,40 @@ public class Loan {
 
     }
     
+    public void setDeliveryCal(GregorianCalendar deliveryCal) {
+    	this.deliveryCal = deliveryCal;
+    }
+    
+    public void setUserId(String userId) {
+    	this.userId = userId;
+    }
+    
+    public void setBookId(int bookId) {
+    	this.bookId = bookId;
+    }
+    
+   	public String getUserId() {
+    	return this.userId;
+    }
+    
+    public int getBookId() {
+    	return this.bookId;
+    }
+    
     public GregorianCalendar getInitialCal() {
         return this.initialCal;
     }
 
     public GregorianCalendar getDeliveryCal() {
         return this.deliveryCal;
+    }
+    
+    public void setBook(Book book) {
+    	this.book = book;
+    }
+    
+    public void setUser(User user) {
+    	this.locator = user;
     }
 
     public User getLocator(){

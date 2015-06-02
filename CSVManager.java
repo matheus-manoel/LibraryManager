@@ -43,6 +43,8 @@ public class CSVManager {
 			FileWriter userWriter = new FileWriter(userFile, true);
 			BufferedWriter userBuffer = new BufferedWriter(userWriter);
 			
+			userBuffer.write(user.toString());
+			userBuffer.write(", ");
 			userBuffer.write(user.getName());
 			userBuffer.write(", ");
 			userBuffer.write(user.getId());
@@ -59,7 +61,8 @@ public class CSVManager {
 			}
 			
 			userBuffer.write(", ");
-		
+			
+			//grava o dia do aluguel
 			GregorianCalendar rentDay = user.getRentAvailabilityDay();
 			userBuffer.write(rentDay.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
 		                            rentDay.get(GregorianCalendar.MONTH) + "/" +
@@ -67,21 +70,22 @@ public class CSVManager {
 
 			userBuffer.write(", ");
 			
-			if(user.toString() == "Student"){
+			if(user.toString().equals("Student")){
 				userBuffer.write(user.getSchoolId());
 				userBuffer.write(", ");
 				userBuffer.write(user.getAcademicDegree());
 				userBuffer.write(", ");
 			
-			}else if(user.toString() == "Professor"){
+			}else if(user.toString().equals("Professor")){
 				userBuffer.write(user.getResearcherID());
 				userBuffer.write(", ");
 			
-			}else if(user.toString() == "CommunityMember"){
+			}else if(user.toString().equals("CommunityMember")){
 				userBuffer.write(user.getProfession());
 				userBuffer.write(", ");
 			}
-
+			
+			//grava o dia de hj
 			userBuffer.write(today.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
 		                            today.get(GregorianCalendar.MONTH) + "/" +
 		                            today.get(GregorianCalendar.YEAR));
@@ -96,6 +100,23 @@ public class CSVManager {
 
     }
     
+    public void clearFile(String fileId) {
+        try {
+            PrintWriter writer;
+            if(fileId.equals("book"))
+                writer = new PrintWriter(bookFile);
+            else if(fileId.equals("user"))
+                writer = new PrintWriter(userFile);
+            else
+                writer = new PrintWriter(loanFile);     
+                
+            writer.print("");
+            writer.close();
+       } catch (Exception e) {
+           System.out.println("Erro no clearFile.");
+       }
+    }
+
     public void addBook(Book book) {
 		try{
 		
@@ -135,7 +156,13 @@ public class CSVManager {
 			} else{
 				bookBuffer.write("false");		
 			}
-			
+		    bookBuffer.write(", ");
+            
+            if(book.isAvailable())
+                bookBuffer.write("true");
+            else
+                bookBuffer.write("false");
+
 			bookBuffer.write(", ");
 			bookBuffer.write(String.valueOf(book.getIsnb()));
 
@@ -160,7 +187,7 @@ public class CSVManager {
 			FileWriter loanWriter = new FileWriter(loanFile, true);
 			BufferedWriter loanBuffer = new BufferedWriter(loanWriter);
 			
-			loanBuffer.write(loan.getBook().getIsnb());
+			loanBuffer.write(String.valueOf(loan.getBook().getIsnb()));
 			loanBuffer.write(", ");
 			loanBuffer.write(loan.getLocator().getId());
 			loanBuffer.write(", ");
@@ -189,7 +216,7 @@ public class CSVManager {
 
 	}
 	
-	public ArrayList<Book> readBook(){
+	public ArrayList<Book> loadBooks(){
 		
 		ArrayList<Book> books = new ArrayList<Book>();
 
@@ -204,55 +231,48 @@ public class CSVManager {
 				String data[] = line.split(", ");
 			
 				String ftitle = data[0];
-//				System.out.println(ftitle);				
 				String fsubtitle = data[1];
-//				System.out.println(fsubtitle);
 				int fnumOfAuthors = Integer.parseInt(data[2]);
-//				System.out.println(fnumOfAuthors);
 				
 				//para ler os autores
 				ArrayList<String> authors = new ArrayList<String>();
 				int i;
 				for(i=0; i<fnumOfAuthors; i++){
 					authors.add(data[3+i]);
-					System.out.println(3+i+" " + authors.get(i));
 				}
 				
-				//arrumar aqui
-				int fedition = Integer.parseInt(data[4+i]);
-				System.out.println(i+4 +" "+ fedition);
-				int fyear = Integer.parseInt(data[5+i]);
-				System.out.println(i+5 +" "+ fyear);
-				String fpublisher = data[6+i];
-				System.out.println(i+6 + fpublisher);				
-				int fnumOfPages = Integer.parseInt(data[7+i]);
-				System.out.println(i+7 + fnumOfPages);			
+				int fedition = Integer.parseInt(data[3+i]);
+				int fyear = Integer.parseInt(data[4+i]);
+				String fpublisher = data[5+i];
+				int fnumOfPages = Integer.parseInt(data[6+i]);
 				
 				//para ler o boolean
 				boolean favailableForCommunityMember;
-				if(data[8+i].equals("true")){
+				if(data[7+i].equals("true")){
 					favailableForCommunityMember = true;
 				}else {
 					favailableForCommunityMember = false;
 				}
-				
+			    
+                boolean fAvailable;
+                if(data[8+i].equals("true"))
+                    fAvailable = true;
+                else
+                    fAvailable = false;
+                
 				int fisnb = Integer.parseInt(data[9+i]);
 
 				//para ler a data
-				String date[] = line.split("/");
+				String date[] = data[10+i].split("/");
 				int day = Integer.parseInt(date[0]);
 				int month = Integer.parseInt(date[1]);				
 				int year = Integer.parseInt(date[2]);				
 				
-				/*GregorianCalendar fdate = new GregorianCalendar();
-				fdate.set(GregorianCalendar.DAY, day);
-				fdate.set(GregorianCalendar.MONTH, month);
-				fdate.set(GregorianCalendar.YEAR, year);
-				*/
+				GregorianCalendar fdate = new GregorianCalendar(year, month, day, 0, 0, 0);
 				
 				Book fbook = new Book(ftitle, fsubtitle, fedition, fyear, fpublisher, fnumOfPages, favailableForCommunityMember, fisnb, authors);
-				books.add(fbook);
-				
+		        fbook.setAvailable(fAvailable);		
+                books.add(fbook);
 				line = bookBuffer.readLine();
 				
 			}
@@ -263,6 +283,188 @@ public class CSVManager {
 		}
 		
 		return books;
+	}
+	
+	public ArrayList<User> loadUsers(){
+
+		ArrayList<User> users = new ArrayList<User>();
+		User fuser;
+		
+		try{
+		
+			BufferedReader userBuffer = new BufferedReader(new FileReader(userFile));
+			
+			String line = userBuffer.readLine();
+
+			while(line != null){
+				
+				String data[] = line.split(", ");
+			
+				String ftype = data[0];
+								
+				if(ftype.equals("Student")){
+					fuser = loadStudent(data);
+					
+				} else if (ftype.equals("Professor")){
+					fuser = loadProfessor(data);
+					
+				} else {
+					fuser = loadCommunityMember(data);
+					
+				}
+
+                users.add(fuser);
+				line = userBuffer.readLine();
+			}
+		
+		} catch (IOException ex){
+			System.out.println("Failed at reading the file");
+		}
+		
+		
+		return users;
+	}
+	
+	private Student loadStudent(String[] data){
+
+		String fname = data[1];
+		String fid = data[2];
+		String ftelephoneNumber = data[3];
+		String femail = data[4];
+	
+		//para ler o boolean
+		boolean fcanrent;
+		if(data[5].equals("true")){
+			fcanrent = true;
+		}else {
+			fcanrent = false;
+		}
+	
+		//para ler a data
+		String date[] = data[6].split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);				
+		int year = Integer.parseInt(date[2]);				
+	
+		GregorianCalendar fdate = new GregorianCalendar(year, month, day, 0, 0, 0);
+		
+		String fschoolId = data[7];
+		String facademicDegree = data[8];
+		
+		Student student = new Student(data[1], data[2], data[3], data[4], fdate, fschoolId, facademicDegree);
+		
+		return student;
+	}
+	
+	private Professor loadProfessor(String[] data){
+
+		String fname = data[1];
+		String fid = data[2];
+		String ftelephoneNumber = data[3];
+		String femail = data[4];
+	
+		//para ler o boolean
+		boolean fcanrent;
+		if(data[5].equals("true")){
+			fcanrent = true;
+		}else {
+			fcanrent = false;
+		}
+	
+		//para ler a data
+		String date[] = data[6].split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);				
+		int year = Integer.parseInt(date[2]);				
+	
+		GregorianCalendar fdate = new GregorianCalendar(year, month, day, 0, 0, 0);
+		
+		String fresearcherId = data[7];
+		
+		Professor professor = new Professor(data[1], data[2], data[3], data[4], fdate, fresearcherId);
+		
+		return professor;
+	}
+	
+	
+	private CommunityMember loadCommunityMember(String[] data){
+
+		String fname = data[1];
+		String fid = data[2];
+		String ftelephoneNumber = data[3];
+		String femail = data[4];
+	
+		//para ler o boolean
+		boolean fcanrent;
+		if(data[5].equals("true")){
+			fcanrent = true;
+		}else {
+			fcanrent = false;
+		}
+	
+		//para ler a data
+		String date[] = data[6].split("/");
+		int day = Integer.parseInt(date[0]);
+		int month = Integer.parseInt(date[1]);				
+		int year = Integer.parseInt(date[2]);				
+	
+		GregorianCalendar fdate = new GregorianCalendar(year, month, day, 0, 0, 0);
+		
+		String fprofession = data[7];
+		
+		CommunityMember comMember = new CommunityMember(data[1], data[2], data[3], data[4], fdate, fprofession);
+		
+		return comMember;
+	}
+	
+	
+	public ArrayList<Loan> loadLoans(){
+
+		ArrayList<Loan> loans = new ArrayList<Loan>();
+		
+		try{
+		
+			BufferedReader loanBuffer = new BufferedReader(new FileReader(loanFile));
+			
+			String line = loanBuffer.readLine();
+
+			while(line != null){
+				
+				String data[] = line.split(", ");
+			
+				String fuserId = data[0];
+				int fbookIsnb = Integer.parseInt(data[1]);
+				
+				//para ler a data
+				String date[] = data[2].split("/");
+				int day = Integer.parseInt(date[0]);
+				int month = Integer.parseInt(date[1]);				
+				int year = Integer.parseInt(date[2]);
+				GregorianCalendar finitialDate = new GregorianCalendar(year, month, day, 0, 0, 0);
+				
+				date = data[3].split("/");
+				day = Integer.parseInt(date[0]);
+				month = Integer.parseInt(date[1]);				
+				year = Integer.parseInt(date[2]);
+				GregorianCalendar fdeliveryDate = new GregorianCalendar(year, month, day, 0, 0, 0);
+				
+				User fuser = new User("null", "null", "null", "null", true, fdeliveryDate);
+				Book fbook = new Book("null", "null", 0, 0, "null", 0, true, 0, new ArrayList<String>());
+				
+				Loan floan = new Loan(fuser, fbook, finitialDate);
+				floan.setDeliveryCal(fdeliveryDate);
+				floan.setUserId(fuserId);
+				floan.setBookId(fbookIsnb);
+				
+				line = loanBuffer.readLine();
+			}
+		
+		} catch (IOException ex){
+			System.out.println("Failed at reading the file");
+		}
+		
+		
+		return loans;
 	}
 
 }

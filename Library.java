@@ -12,14 +12,16 @@ public class Library{
 	public Library(GregorianCalendar today) {
 		this.csvm = new CSVManager("Users.csv", "Books.csv", "Loans.csv", today);
 		this.today = today;
-        this.books = new ArrayList<Book>();
-		this.users = new ArrayList<User>();
-		this.loans = new ArrayList<Loan>();
+        this.books = this.csvm.loadBooks(); 
+		this.users = this.csvm.loadUsers();	
+		this.loans = this.csvm.loadLoans();
 		
-		books = csvm.readBook();
-		
-	}
-    
+		for(Loan loan : this.loans) {
+			loan.setUser(findUser(loan.getUserId()));
+			loan.setBook(findBook(loan.getBookId()));	
+    	}
+    }
+
     public boolean deleteLoan(int isnb) {
         Iterator<Loan> iterator = this.loans.iterator();
 
@@ -97,34 +99,6 @@ public class Library{
         csvm.addUser(user);
         return 1;
     }
-
-/*	public int addUser(Student student) {
-        for(User user : this.users) {
-            if(user.getEmail().equals(student.getEmail()))
-                return 0;
-
-            if(user.getId().equals(student.getId()))
-                return -1;
-        }
-
-		this.users.add(student);
-        return 1;
-    }
-
-	public int addUser(Professor professor) {
-        for(User user : this.users) {
-            if(user.getEmail().equals(professor.getEmail()))
-                return 0;
-
-            if(user.getId().equals(professor.getId()))
-                return -1;
-            
-        }
-
-		this.users.add(professor);
-        return 1;
-    }
-*/
     
     /* Returns:
      * true -> Sucesso.
@@ -277,6 +251,16 @@ public class Library{
                     user.setCanRent(true);
             }
         }
+    }
+    
+    public void updateBookFile() {
+        this.csvm.clearFile("book");
+        for(Book book : this.books)
+            this.csvm.addBook(book);
+    }
+
+    public void exiting() {
+        updateBookFile();    
     }
 
 	public void start() {
@@ -460,6 +444,7 @@ public class Library{
                 deleteLoan(isnb);
 	        }else if(option == 0){		
                 System.out.println("Exit selected");
+                exiting();
             }
         }
 	}
