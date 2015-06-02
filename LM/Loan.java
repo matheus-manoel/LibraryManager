@@ -34,10 +34,6 @@ public class Loan {
 		
 		//adicionando o número de dias máximo que o locator pode ficar com o livro
 		this.deliveryCal.add(Calendar.DATE, this.locator.getMaxRentalDays());		
-
-        System.out.println("delivery date: " + deliveryCal.get(GregorianCalendar.DAY_OF_MONTH) + "/" +
-                            deliveryCal.get(GregorianCalendar.MONTH) + "/" +
-                            deliveryCal.get(GregorianCalendar.YEAR));
     }
     
     public boolean updateLocatorRentAvailability(GregorianCalendar today){

@@ -12,9 +12,11 @@ public class LibraryManager{
         GregorianCalendar today;
         int day, month, year;
 	    
-        System.out.println("Insira a data: ");
+        System.out.print("Insira o dia: ");
 		day = in.nextInt();
+		System.out.print("Insira o mês: ");
 	    month = in.nextInt();
+	    System.out.print("Insira o ano: ");
 	    year = in.nextInt();
         today = new GregorianCalendar(year, month, day);
         Library library = new Library(today);

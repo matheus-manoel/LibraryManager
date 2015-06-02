@@ -272,10 +272,20 @@ public class Library{
         updateLoans();    
 		
         while(option != 0){
-
+			clearConsole();
+        	System.out.println("\t\tLibrary Manager");
+        	System.out.println("1. Adicionar aluno!");
+        	System.out.println("2. Adicionar professor!");
+        	System.out.println("3. Adicionar membro da comunidade!");
+        	System.out.println("4. Adicionar livro!");
+        	System.out.println("5. Fazer empréstimo!");
+        	System.out.println("6. Listar livros!");
+        	System.out.println("7. Listar usuarios!");
+        	System.out.println("8. Listar emprestimos!");
+        	System.out.println("9. Devolever livro!");
+			
             option = in.nextInt();
 			in.nextLine();				//this works like a fflush
-		    clearConsole();
 
             if(option == 1){
                 
